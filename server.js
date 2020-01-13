@@ -34,7 +34,8 @@ app.get('/service-worker.js', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'service-worker.js'));
 });
 
-app.get('/api/local-devices', async (req, res) => {
+app.get('/api/local-devices', (req, res) => {
   const devices = os.networkInterfaces();
+  if (!devices) res.status(500).send({ error: 'No devices' });
   res.status(200).send(devices);
 });
