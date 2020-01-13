@@ -16,7 +16,7 @@ const App = () => {
 
   useEffect(() => {
     axios({
-      url: 'api/esp',
+      url: 'http://192.168.0.102',
       method: 'get'
     })
       .then(res => {
