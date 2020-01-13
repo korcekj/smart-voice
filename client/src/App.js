@@ -14,18 +14,18 @@ const App = () => {
   //   asyncFun();
   // }, []);
 
-  useEffect(() => {
-    axios({
-      url: 'http://192.168.0.102',
-      method: 'get'
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(error => {
-        console.error('Error: ', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios({
+  //     url: 'api/local-devices',
+  //     method: 'get'
+  //   })
+  //     .then(res => {
+  //       console.log(res);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error: ', error);
+  //     });
+  // }, []);
 
   return (
     <div>
