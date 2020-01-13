@@ -16,14 +16,14 @@ const App = () => {
 
   useEffect(() => {
     axios({
-      url: 'api/local-devices',
+      url: 'api/esp',
       method: 'get'
     })
       .then(res => {
         console.log(res);
       })
       .catch(error => {
-        console.error('Error: ', JSON.parse(error));
+        console.error('Error: ', error);
       });
   }, []);
 
