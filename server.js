@@ -36,5 +36,8 @@ app.get('/service-worker.js', (req, res) => {
 
 app.get('/api/local-devices', async (req, res) => {
   const devices = await find();
+  if (!devices) {
+    devices = { error: 'No devices' };
+  }
   res.status(200).send({ devices });
 });
