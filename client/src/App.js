@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import axios from 'axios';
 
 import Header from './components/header/header.component';
 
@@ -14,9 +15,16 @@ const App = () => {
   // }, []);
 
   useEffect(() => {
-    fetch('/api/local-devices')
-      .then(x => x.json())
-      .then(x => console.log(x));
+    axios({
+      url: 'api/local-devices',
+      method: 'get'
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.error('Error: ', JSON.parse(error));
+      });
   }, []);
 
   return (
