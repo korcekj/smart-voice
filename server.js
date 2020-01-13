@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const compression = require('compression');
 const enforce = require('express-sslify');
-const find = require('local-devices');
+const os = require('os');
 
 // if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
@@ -35,9 +35,6 @@ app.get('/service-worker.js', (req, res) => {
 });
 
 app.get('/api/local-devices', async (req, res) => {
-  const devices = await find();
-  if (!devices) {
-    devices = { error: 'No devices' };
-  }
-  res.status(200).send({ devices });
+  const devices = os.networkInterfaces();
+  res.status(200).send(devices);
 });
