@@ -5,8 +5,7 @@ const path = require('path');
 const compression = require('compression');
 const enforce = require('express-sslify');
 const find = require('local-devices');
-
-// if (process.env.NODE_ENV !== 'production') require('dotenv').config();
+const fetch = require('node-fetch');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -20,9 +19,30 @@ app.get('/service-worker.js', (req, res) => {
 });
 
 app.get('/api/local-devices', async (req, res) => {
-  const devices = await find();
-  if (!devices) res.status(500).send({ error: 'No devices' });
-  res.status(200).send({ devices });
+  try {
+    const devices = await find();
+    if (!devices) res.status(200).send({});
+    res.status(200).send({ devices });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
+
+app.post('/api/module', (req, res) => {
+  const { ip } = req.body;
+
+  fetch(`http://${ip}`)
+    .then(res => res.json())
+    .then(json => res.status(json.status).send(json))
+    .catch(({ message }) =>
+      res.status(404).send({
+        status: 404,
+        description: {
+          rate: 'error',
+          message
+        }
+      })
+    );
 });
 
 if (process.env.NODE_ENV === 'production') {

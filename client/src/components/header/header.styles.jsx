@@ -5,7 +5,8 @@ export const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5em 2em;
+  padding: 0 3em;
+  height: 80px;
   background: rgb(255, 241, 175);
   background: linear-gradient(
     90deg,
@@ -29,13 +30,15 @@ export const NavLinkElement = styled(NavLink)`
   position: relative;
   font-weight: bold;
   margin-right: 2em;
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
 
   &::before {
     content: '';
     opacity: 0;
     position: absolute;
     background-color: #333;
-    top: calc(50% + 2px);
+    top: 50%;
     left: -15px;
     width: 5px;
     height: 5px;
@@ -50,5 +53,14 @@ export const NavLinkElement = styled(NavLink)`
 
   &:last-child {
     margin-right: 0;
+  }
+
+  &:hover,
+  &:focus {
+    color: #00465f;
+
+    &.active::before {
+      background-color: #00465f;
+    }
   }
 `;

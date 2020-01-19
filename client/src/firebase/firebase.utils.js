@@ -17,7 +17,8 @@ var firebaseConfig = {
 // Initializing the Firebase
 firebase.initializeApp(firebaseConfig);
 
-export const createUser = async user => {
+// Utils
+export const createUser = async (user, otherData) => {
   if (!user) return;
 
   const userRef = database.ref('/users/' + user.uid);
@@ -31,15 +32,17 @@ export const createUser = async user => {
       await userRef.set({
         displayName,
         email,
-        createdAt
+        createdAt,
+        ...otherData
       });
     } catch (error) {
       console.error('Error: Create user ', error);
     }
   }
+
+  return userRef;
 };
 
-// Utils
 export const getCurrentUser = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -47,6 +50,43 @@ export const getCurrentUser = () => {
       resolve(user);
     }, reject);
   });
+};
+
+export const getAvailableModules = async uid => {
+  let modules = {};
+
+  if (!uid) return modules;
+
+  const modulesRef = database.ref('/users/' + uid + '/modules');
+  const snapshot = await modulesRef.once('value');
+
+  if (!snapshot.exists()) {
+    return modules;
+  }
+
+  modules = Object.entries(snapshot.val()).reduce((res, [mac, ip]) => {
+    res[mac] = { ip };
+    return res;
+  }, {});
+
+  return modules;
+};
+
+export const getCurrentModule = async mac => {
+  if (!mac) return;
+
+  try {
+    const moduleRef = database.ref('/modules/' + mac);
+    const snapshot = await moduleRef.once('value');
+
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    return snapshot.val();
+  } catch (error) {
+    return null;
+  }
 };
 
 export const auth = firebase.auth();
