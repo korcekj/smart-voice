@@ -2,7 +2,6 @@ import { moduleActionTypes } from './module.types';
 
 const INITIAL_STATE = {
   availableModules: null,
-  isFetching: false,
   error: {
     message: null,
     type: null
@@ -14,7 +13,6 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
     case moduleActionTypes.FETCH_MODULES_START:
       return {
         ...state,
-        isFetching: true,
         error: {
           message: null,
           type: null
@@ -24,7 +22,20 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         availableModules: action.payload,
-        isFetching: false,
+        error: {
+          message: null,
+          type: null
+        }
+      };
+    case moduleActionTypes.ADD_MODULE_SUCCESS:
+      return {
+        ...state,
+        availableModules: {
+          ...state.availableModules,
+          [action.payload.mac]: {
+            ip: action.payload.ip
+          }
+        },
         error: {
           message: null,
           type: null
@@ -33,10 +44,17 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
     case moduleActionTypes.FETCH_MODULES_FAILURE:
       return {
         ...state,
-        isFetching: false,
         error: {
           message: action.payload,
           type: moduleActionTypes.FETCH_MODULES_FAILURE
+        }
+      };
+    case moduleActionTypes.ADD_MODULE_FAILURE:
+      return {
+        ...state,
+        error: {
+          message: action.payload,
+          type: moduleActionTypes.ADD_MODULE_FAILURE
         }
       };
     default:

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 411.467">
+  <g id="wifi" transform="translate(0 -50.267)">
+    <g id="Group_4" data-name="Group 4" transform="translate(192.83 335.393)">
+      <g id="Group_3" data-name="Group 3">
+        <path id="Path_24" data-name="Path 24" d="M300.775,354.044a63.171,63.171,0,1,0,0,89.377A63.272,63.272,0,0,0,300.775,354.044Z" transform="translate(-192.915 -335.563)" fill="#00465f"/>
+      </g>
+    </g>
+    <g id="Group_6" data-name="Group 6" transform="translate(95.078 192.164)">
+      <g id="Group_5" data-name="Group 5">
+        <path id="Path_25" data-name="Path 25" d="M401.684,252.441a205.933,205.933,0,0,0-290.933,0,52.767,52.767,0,1,0,74.623,74.624,100.3,100.3,0,0,1,141.684,0,52.767,52.767,0,0,0,74.626-74.622Z" transform="translate(-95.295 -192.274)" fill="#5c99af"/>
+      </g>
+    </g>
+    <g id="Group_8" data-name="Group 8" transform="translate(0 50.267)">
+      <g id="Group_7" data-name="Group 7" transform="translate(0 0)">
+        <path id="Path_26" data-name="Path 26" d="M496.566,150.048a339.886,339.886,0,0,0-481.131,0A52.731,52.731,0,1,0,89.956,224.67c91.556-91.679,240.53-91.679,332.088,0a52.731,52.731,0,0,0,74.522-74.622Z" transform="translate(0 -50.267)" fill="#b1d2de"/>
+      </g>
+    </g>
+  </g>
+</svg>

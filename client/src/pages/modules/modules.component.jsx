@@ -1,13 +1,15 @@
 import React from 'react';
 
-import ModulePreview from '../../components/module-preview/module-preview.component';
+import ModulesPreview from '../../components/modules-preview/modules-preview.component';
+import DevicesPreview from '../../components/devices-preview/devices-preview.component';
 
 import { ModulesOverlay } from './modules.styles';
 
 const ModulesPage = () => {
   return (
     <ModulesOverlay>
-      <ModulePreview />
+      <ModulesPreview />
+      <DevicesPreview />
     </ModulesOverlay>
   );
 };

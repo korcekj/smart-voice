@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { CustomButtonContainer } from '../custom-button/custom-buttom.styles';
 
 export const SignInContainer = styled.div`
-  width: 50%;
+  width: 46%;
   display: flex;
   flex-direction: column;
-  margin: 0 2em;
+  margin-right: 4%;
 `;
 
 export const Title = styled.h2`

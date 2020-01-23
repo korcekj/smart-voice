@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+
+import { getModuleStatus } from '../../esp8266/esp8266.utils';
 
 import {
   ModuleItemContainer,
@@ -9,27 +11,24 @@ import {
   ModuleStatus
 } from './module-item.styles';
 
-const ModuleItem = ({ mac, ip }) => {
+const ModuleItem = ({ mac, ip, match }) => {
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    axios({
-      url: '/api/module',
-      method: 'post',
-      data: {
-        ip
-      }
-    })
-      .then(res => {
+    const asyncFun = async () => {
+      try {
+        await getModuleStatus(ip);
         setStatus(true);
-      })
-      .catch(error => {
+      } catch (error) {
         setStatus(false);
-      });
+      }
+    };
+
+    asyncFun();
   }, [ip]);
 
   return (
-    <ModuleItemContainer to={`/module/${mac}`}>
+    <ModuleItemContainer to={`${match.path}/module/${mac}`}>
       <ModuleIcon />
       <ItemTitle>{mac}</ItemTitle>
       <ItemSubtitle>{ip}</ItemSubtitle>
@@ -38,4 +37,4 @@ const ModuleItem = ({ mac, ip }) => {
   );
 };
 
-export default ModuleItem;
+export default React.memo(withRouter(ModuleItem));

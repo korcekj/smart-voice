@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const ModulePreviewOverlay = styled.div`
   position: relative;
-  width: 50%;
+  width: 48%;
+  margin-right: 0 2%;
 
   &::before,
   &::after {
@@ -39,4 +40,20 @@ export const ModulePreviewContainer = styled.div`
   max-height: 500px;
   overflow-y: auto;
   padding: 1em;
+`;
+
+export const NoModuleContainer = styled.div`
+  width: 100%;
+  padding: 1em;
+  border: 2px solid rgba(0, 75, 95, 0.4);
+  border-radius: 6px;
+  text-align: center;
+`;
+
+export const NoModuleTitle = styled.p`
+  margin: 0;
+  font-size: 14px;
+  color: #00465f;
+  line-height: 2em;
+  font-weight: bold;
 `;

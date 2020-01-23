@@ -34,7 +34,7 @@ const Header = ({ currentUser, signOutStart }) => {
       default:
         return (
           <NavContainer>
-            <NavLinkElement to='/dashboard' exact activeClassName='active'>
+            <NavLinkElement to='/user' exact activeClassName='active'>
               Domov
             </NavLinkElement>
             <NavLinkElement as='div' to='' onClick={signOutStart}>

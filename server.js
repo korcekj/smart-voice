@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const compression = require('compression');
 const enforce = require('express-sslify');
+
+// Packages for ESP communication
 const find = require('local-devices');
 const fetch = require('node-fetch');
 
@@ -21,28 +23,38 @@ app.get('/service-worker.js', (req, res) => {
 app.get('/api/local-devices', async (req, res) => {
   try {
     const devices = await find();
-    if (!devices) res.status(200).send({});
-    res.status(200).send({ devices });
+    if (!devices) res.status(200).send([]);
+    res.status(200).send(
+      devices.map(({ mac, ip }) => ({
+        ip,
+        mac: mac
+          .split(':')
+          .join('-')
+          .toUpperCase()
+      }))
+    );
   } catch (error) {
-    res.status(500).send({ error });
+    res.status(500).send([]);
   }
 });
 
-app.post('/api/module', (req, res) => {
-  const { ip } = req.body;
-
-  fetch(`http://${ip}`)
-    .then(res => res.json())
-    .then(json => res.status(json.status).send(json))
-    .catch(({ message }) =>
-      res.status(404).send({
-        status: 404,
-        description: {
-          rate: 'error',
-          message
-        }
-      })
-    );
+app.post('/api/module', async (req, res) => {
+  try {
+    const { ip } = req.body;
+    const ping = await fetch(`http://${ip}`, {
+      timeout: 5000
+    });
+    const json = await ping.json();
+    res.status(json.status).send(json);
+  } catch ({ message }) {
+    res.status(404).send({
+      status: 404,
+      description: {
+        rate: 'error',
+        message
+      }
+    });
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {

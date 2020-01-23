@@ -47,7 +47,7 @@ const App = ({ checkUserSession, currentUser }) => {
               component={SignInAndSignUpPage}
             />
             <PrivateRoute
-              path='/dashboard'
+              path='/user'
               isAuth={!!currentUser}
               component={DashboardPage}
             />
@@ -67,24 +67,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-// useEffect(() => {
-//   const asyncFun = async () => {
-//     const { user } = await auth.signInWithPopup(googleProvider);
-//     await createUser(user);
-//   };
-//   asyncFun();
-// }, []);
-
-// useEffect(() => {
-// axios({
-//   url: 'api/local-devices',
-//   method: 'get'
-// })
-//   .then(res => {
-//     console.log(res);
-//   })
-//   .catch(error => {
-//     console.error('Error: ', error);
-//   });
-// }, []);

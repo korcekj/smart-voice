@@ -26,14 +26,10 @@ const UserHeader = ({ currentUser }) => {
 
   return (
     <UserHeaderOverlay>
-      <UserContainer>
+      <UserContainer onClick={toggleHidden}>
         <UserIcon />
         <UserEmail>{email}</UserEmail>
-        {isHidden ? (
-          <ArrowDownIcon onClick={toggleHidden} />
-        ) : (
-          <ArrowUpIcon onClick={toggleHidden} />
-        )}
+        {isHidden ? <ArrowDownIcon /> : <ArrowUpIcon />}
         {!isHidden && <UserDropdown displayName={displayName} />}
       </UserContainer>
     </UserHeaderOverlay>

@@ -64,8 +64,8 @@ export const getAvailableModules = async uid => {
     return modules;
   }
 
-  modules = Object.entries(snapshot.val()).reduce((res, [mac, ip]) => {
-    res[mac] = { ip };
+  modules = Object.entries(snapshot.val()).reduce((res, [key, values]) => {
+    res[key] = { ...values };
     return res;
   }, {});
 
@@ -75,18 +75,40 @@ export const getAvailableModules = async uid => {
 export const getCurrentModule = async mac => {
   if (!mac) return;
 
+  const moduleRef = database.ref('/modules/' + mac);
+
   try {
-    const moduleRef = database.ref('/modules/' + mac);
     const snapshot = await moduleRef.once('value');
 
     if (!snapshot.exists()) {
-      return null;
+      return;
     }
 
     return snapshot.val();
   } catch (error) {
-    return null;
+    return;
   }
+};
+
+export const createModule = async (uid, device) => {
+  if (!device || !uid) return;
+
+  const { mac, ip } = device;
+  const moduleRef = database.ref('/users/' + uid + '/modules/' + mac);
+  const snapshot = await moduleRef.once('value');
+
+  if (snapshot.exists()) {
+    return;
+  }
+
+  try {
+    const createdAt = new Date().toISOString();
+    await moduleRef.set({ ip, createdAt });
+  } catch (error) {
+    return;
+  }
+
+  return moduleRef;
 };
 
 export const auth = firebase.auth();
