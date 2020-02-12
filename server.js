@@ -41,10 +41,62 @@ app.get('/api/local-devices', async (req, res) => {
 app.post('/api/module', async (req, res) => {
   try {
     const { ip } = req.body;
-    const ping = await fetch(`http://${ip}`, {
+    const response = await fetch(`http://${ip}`, {
       timeout: 5000
     });
-    const json = await ping.json();
+    const json = await response.json();
+    res.status(json.status).send(json);
+  } catch ({ message }) {
+    res.status(404).send({
+      status: 404,
+      description: {
+        rate: 'error',
+        message
+      }
+    });
+  }
+});
+
+app.post('/api/hardware/:type', async (req, res) => {
+  try {
+    const { userId, moduleId, hardware, ip } = req.body;
+    const { type } = req.params;
+
+    const response = await fetch(
+      `http://${ip}/${type}/create?userId=${userId}&moduleId=${moduleId}`,
+      {
+        method: 'post',
+        body: JSON.stringify(hardware),
+        timeout: 5000
+      }
+    );
+    const json = await response.json();
+    res.status(json.status).send(json);
+  } catch ({ message }) {
+    res.status(404).send({
+      status: 404,
+      description: {
+        rate: 'error',
+        message
+      }
+    });
+  }
+});
+
+app.delete('/api/hardware/:type', async (req, res) => {
+  try {
+    const { userId, moduleId, id, ip } = req.body;
+    const { type } = req.params;
+
+    const response = await fetch(
+      `http://${ip}/${type}/delete?userId=${userId}&moduleId=${moduleId}`,
+      {
+        method: 'post',
+        body: JSON.stringify({ id }),
+        timeout: 5000
+      }
+    );
+    const json = await response.json();
     res.status(json.status).send(json);
   } catch ({ message }) {
     res.status(404).send({

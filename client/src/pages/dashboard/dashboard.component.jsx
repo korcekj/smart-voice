@@ -10,6 +10,7 @@ import PrivateRoute from '../../components/private-route/private-route.container
 import { DashboardOverlay } from './dashboard.styles';
 
 const ModulesPage = lazy(() => import('../modules/modules.container'));
+const ModulePage = lazy(() => import('../module/module.container'));
 
 const DashboardPage = ({ match, fetchModulesStart }) => {
   useEffect(() => {
@@ -21,6 +22,11 @@ const DashboardPage = ({ match, fetchModulesStart }) => {
       <UserHeader />
       <Suspense fallback={<Spinner />}>
         <PrivateRoute path={match.path} exact component={ModulesPage} />
+        <PrivateRoute
+          exact
+          path={`${match.path}/module/:moduleId`}
+          component={ModulePage}
+        />
       </Suspense>
     </DashboardOverlay>
   );

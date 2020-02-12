@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <g id="Group_17" data-name="Group 17" transform="translate(-713 1399)">
+    <rect id="Rectangle_16" data-name="Rectangle 16" width="128" height="128" transform="translate(713 -1041)" fill="#d0e8f0"/>
+    <rect id="Rectangle_15" data-name="Rectangle 15" width="512" height="512" rx="256" transform="translate(713 -1399)" fill="#fff"/>
+    <g id="trash-can" transform="translate(780.402 -1319.269)">
+      <g id="Group_10" data-name="Group 10" transform="translate(169.844 188.128)">
+        <g id="Group_9" data-name="Group 9">
+          <rect id="Rectangle_12" data-name="Rectangle 12" width="27.464" height="109.169" fill="#df5b5b"/>
+        </g>
+      </g>
+      <g id="Group_12" data-name="Group 12" transform="translate(224.772 188.128)">
+        <g id="Group_11" data-name="Group 11">
+          <rect id="Rectangle_13" data-name="Rectangle 13" width="27.464" height="109.169" fill="#df5b5b"/>
+        </g>
+      </g>
+      <g id="Group_14" data-name="Group 14" transform="translate(114.917 188.128)">
+        <g id="Group_13" data-name="Group 13">
+          <rect id="Rectangle_14" data-name="Rectangle 14" width="27.464" height="109.169" fill="#df5b5b"/>
+        </g>
+      </g>
+      <g id="Group_16" data-name="Group 16" transform="translate(39.598 0)">
+        <g id="Group_15" data-name="Group 15">
+          <path id="Path_27" data-name="Path 27" d="M304.73,76.758l-40.1-8.478,1.822-8.621a41.2,41.2,0,0,0-31.785-48.825L187.64.9A41.244,41.244,0,0,0,138.814,32.68L136.993,41.3,95.475,32.521A41.153,41.153,0,0,0,46.7,64.276l-7.1,33.6,167.294,35.365H62.738V311.072a41.243,41.243,0,0,0,41.2,41.2H263.225a41.243,41.243,0,0,0,41.2-41.2V153.861l24.96,5.276,7.1-33.605A41.2,41.2,0,0,0,304.73,76.758ZM165.685,38.36A13.747,13.747,0,0,1,181.96,27.765L228.983,37.7A13.731,13.731,0,0,1,239.578,53.98l-1.822,8.62L163.863,46.98ZM276.957,311.072A13.747,13.747,0,0,1,263.225,324.8H103.934A13.747,13.747,0,0,1,90.2,311.072V160.707H276.957Zm32.655-191.219-1.424,6.734L72.147,76.688l1.424-6.734A13.689,13.689,0,0,1,89.8,59.392L299.05,103.627A13.707,13.707,0,0,1,309.612,119.853Z" transform="translate(-39.598 0)" fill="#df5b5b"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

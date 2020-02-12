@@ -19,28 +19,32 @@ const DeviceItem = ({
   mac,
   ip,
   error,
-  moduleIsAdded,
+  moduleExists,
   addModuleStart,
   removeDevice
 }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [triggered, setTriggered] = useState(false);
 
   useEffect(() => {
-    if (moduleIsAdded) {
-      setIsLoading(true);
+    if (moduleExists) {
+      setIsLoading(false);
       removeDevice(mac);
     }
 
-    if (error.type === moduleActionTypes.ADD_MODULE_FAILURE) {
-      setIsLoading(true);
+    if (error.type === moduleActionTypes.ADD_MODULE_FAILURE && triggered) {
+      setTriggered(false);
+      setIsLoading(false);
       setErrorMessage('Zariadenie sa nepodarilo pridať');
     }
-  }, [mac, error, moduleIsAdded, removeDevice]);
+  }, [mac, error, triggered, moduleExists, removeDevice]);
 
   const onAddDevice = () => {
+    setTriggered(true);
     setIsLoading(true);
-    addModuleStart({ mac, ip });
+    setErrorMessage(null);
+    addModuleStart(mac);
   };
 
   return (
@@ -57,12 +61,12 @@ const DeviceItem = ({
 };
 
 const mapStateToProps = (state, props) => ({
-  moduleIsAdded: !!selectModule(props.mac)(state),
+  moduleExists: !!selectModule(props.mac)(state),
   error: selectError(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  addModuleStart: device => dispatch(addModuleStart(device))
+  addModuleStart: mac => dispatch(addModuleStart(mac))
 });
 
 export default connect(

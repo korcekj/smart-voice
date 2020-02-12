@@ -7,29 +7,29 @@ import { selectAvailableModules } from '../../redux/module/module.selectors';
 import ModuleItem from '../module-item/module-item.component';
 
 import {
-  ModulePreviewOverlay,
-  ModulePreviewContainer,
-  NoModuleContainer,
-  NoModuleTitle
+  ModulesPreviewOverlay,
+  ModulesPreviewContainer,
+  NoModulesContainer,
+  NoModulesTitle
 } from './modules.preview.styles';
 
 const ModulesPreview = ({ availableModules }) => {
   return (
-    <ModulePreviewOverlay>
-      <ModulePreviewContainer>
-        {Object.entries(availableModules).length ? (
-          Object.entries(availableModules).map(([mac, { ip }]) => (
+    <ModulesPreviewOverlay>
+      <ModulesPreviewContainer>
+        {Object.keys(availableModules).length ? (
+          Object.entries(availableModules).map(([mac, { data: { ip } }]) => (
             <ModuleItem key={mac} mac={mac} ip={ip} />
           ))
         ) : (
-          <NoModuleContainer>
-            <NoModuleTitle>
+          <NoModulesContainer>
+            <NoModulesTitle>
               &bull; Tvoj zoznam modulov je prázdny &bull;
-            </NoModuleTitle>
-          </NoModuleContainer>
+            </NoModulesTitle>
+          </NoModulesContainer>
         )}
-      </ModulePreviewContainer>
-    </ModulePreviewOverlay>
+      </ModulesPreviewContainer>
+    </ModulesPreviewOverlay>
   );
 };
 

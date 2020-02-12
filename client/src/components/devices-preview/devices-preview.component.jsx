@@ -11,8 +11,8 @@ import {
   DevicesButtonContainer,
   LocalDevicesOverlay,
   LocalDevicesContainer,
-  NoDeviceContainer,
-  NoDeviceTitle
+  DevicesUndefinedContainer,
+  DevicesUndefinedTitle
 } from './devices-preview.styles';
 
 const DevicesPreview = () => {
@@ -55,12 +55,12 @@ const DevicesPreview = () => {
               />
             ))
           ) : (
-            <NoDeviceContainer>
-              <NoDeviceTitle>
+            <DevicesUndefinedContainer>
+              <DevicesUndefinedTitle>
                 Pre pridanie modulu klikni na tlačidlo{' '}
                 <span>"Hľadať zariadenia"</span>
-              </NoDeviceTitle>
-            </NoDeviceContainer>
+              </DevicesUndefinedTitle>
+            </DevicesUndefinedContainer>
           )}
         </LocalDevicesContainer>
       </LocalDevicesOverlay>

@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-* {
+  * {
     box-sizing: border-box;
   }
 
@@ -17,5 +17,26 @@ export const GlobalStyles = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  /* MODAL */
+  .ReactModal__Overlay {
+    z-index: 10;
+  }
+
+  .ReactModal__Body--open {
+    overflow-y: hidden;
+  }
+
+  .ReactModal__Content {
+    padding: 1em 1.5em !important;
+    display: inline-block;
+    top: 50% !important;
+    left: 50% !important;
+    right: unset !important;
+    bottom: unset !important;
+    border: 2px solid rgba(0, 75, 95, 0.4) !important;
+    border-radius: 6px;
+    transform: translate(-50%, -50%);
   }
 `;

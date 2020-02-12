@@ -56,7 +56,7 @@ export const LocalDevicesContainer = styled.div`
   padding: 1em;
 `;
 
-export const NoDeviceContainer = styled.div`
+export const DevicesUndefinedContainer = styled.div`
   width: 100%;
   padding: 1em;
   border: 2px solid rgba(0, 75, 95, 0.4);
@@ -64,7 +64,7 @@ export const NoDeviceContainer = styled.div`
   text-align: center;
 `;
 
-export const NoDeviceTitle = styled.p`
+export const DevicesUndefinedTitle = styled.p`
   margin: 0;
   font-size: 14px;
   color: #00465f;

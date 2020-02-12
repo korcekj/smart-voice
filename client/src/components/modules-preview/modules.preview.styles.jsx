@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ModulePreviewOverlay = styled.div`
+export const ModulesPreviewOverlay = styled.div`
   position: relative;
   width: 48%;
   margin-right: 0 2%;
@@ -36,13 +36,13 @@ export const ModulePreviewOverlay = styled.div`
   }
 `;
 
-export const ModulePreviewContainer = styled.div`
-  max-height: 500px;
+export const ModulesPreviewContainer = styled.div`
+  max-height: 450px;
   overflow-y: auto;
   padding: 1em;
 `;
 
-export const NoModuleContainer = styled.div`
+export const NoModulesContainer = styled.div`
   width: 100%;
   padding: 1em;
   border: 2px solid rgba(0, 75, 95, 0.4);
@@ -50,7 +50,7 @@ export const NoModuleContainer = styled.div`
   text-align: center;
 `;
 
-export const NoModuleTitle = styled.p`
+export const NoModulesTitle = styled.p`
   margin: 0;
   font-size: 14px;
   color: #00465f;

@@ -57,58 +57,88 @@ export const getAvailableModules = async uid => {
 
   if (!uid) return modules;
 
-  const modulesRef = database.ref('/users/' + uid + '/modules');
-  const snapshot = await modulesRef.once('value');
+  const userModulesRef = database.ref('/users/' + uid + '/modules');
+  const snapshot = await userModulesRef.once('value');
 
   if (!snapshot.exists()) {
     return modules;
   }
 
-  modules = Object.entries(snapshot.val()).reduce((res, [key, values]) => {
-    res[key] = { ...values };
-    return res;
-  }, {});
+  const modulesId = Object.keys(snapshot.val()).map(key => key);
+  modules = await mapModulesToObjects(modulesId);
 
   return modules;
 };
 
-export const getCurrentModule = async mac => {
-  if (!mac) return;
+export const createModule = async (uid, mac) => {
+  if (!mac || !uid) return;
 
-  const moduleRef = database.ref('/modules/' + mac);
+  const userModuleRef = database.ref('/users/' + uid + '/modules/' + mac);
+  const userModuleSnapshot = await userModuleRef.once('value');
 
-  try {
-    const snapshot = await moduleRef.once('value');
-
-    if (!snapshot.exists()) {
-      return;
-    }
-
-    return snapshot.val();
-  } catch (error) {
-    return;
-  }
-};
-
-export const createModule = async (uid, device) => {
-  if (!device || !uid) return;
-
-  const { mac, ip } = device;
-  const moduleRef = database.ref('/users/' + uid + '/modules/' + mac);
-  const snapshot = await moduleRef.once('value');
-
-  if (snapshot.exists()) {
-    return;
-  }
+  if (userModuleSnapshot.exists()) return;
 
   try {
     const createdAt = new Date().toISOString();
-    await moduleRef.set({ ip, createdAt });
+    await userModuleRef.set({ createdAt });
   } catch (error) {
+    console.error('Error: Create module ', error);
+  }
+
+  const moduleRef = database.ref('/modules/' + mac);
+  const moduleSnapshot = await moduleRef.once('value');
+
+  if (!moduleSnapshot.exists()) {
+    await deleteModule(uid, mac);
     return;
   }
 
   return moduleRef;
+};
+
+export const deleteModule = async (uid, mac) => {
+  if (!mac || !uid) return;
+
+  const moduleRef = database.ref('/users/' + uid + '/modules/' + mac);
+
+  try {
+    await moduleRef.remove();
+  } catch (error) {
+    console.error('Error: Delete module ', error);
+  }
+
+  return moduleRef;
+};
+
+export const getHardware = async (moduleId, type, id) => {
+  if (!module || !type || !id) return;
+
+  const hardwareRef = database.ref(
+    '/modules/' + moduleId + '/hardware/' + type + '/' + id
+  );
+  const hardwareSnapshot = await hardwareRef.once('value');
+
+  if (!hardwareSnapshot.exists()) return;
+
+  return { ...hardwareSnapshot.val() };
+};
+
+export const mapModulesToObjects = async modulesId => {
+  let modules = {};
+
+  for (let i = 0; i < modulesId.length; i++) {
+    try {
+      const id = modulesId[i];
+      const moduleRef = database.ref('/modules/' + id);
+      const snapshot = await moduleRef.once('value');
+      if (!snapshot.exists()) continue;
+      modules[id] = { ...snapshot.val() };
+    } catch (error) {
+      continue;
+    }
+  }
+
+  return modules;
 };
 
 export const auth = firebase.auth();
