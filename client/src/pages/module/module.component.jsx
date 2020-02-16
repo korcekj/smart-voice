@@ -7,7 +7,7 @@ import HardwarePreview from '../../components/hardware-preview/hardware-preview.
 import {
   ModuleOverlay,
   ModuleHeaderContainer,
-  ModuleTitleLink,
+  ModuleTitle,
   BackIcon,
   ModuleStatus,
   ModuleUndefinedContainer,
@@ -41,25 +41,25 @@ const ModulePage = ({ module: item, history, match }) => {
 
   return (
     <ModuleOverlay>
-      <ModuleHeaderContainer>
-        <BackIcon onClick={() => history.goBack()} />
-        <ModuleTitleLink replace to={`/user/module/${moduleId}`} title={ip}>
-          {moduleId}
-        </ModuleTitleLink>
-        <ModuleStatus
-          status={status}
-          title={status === true ? 'Online' : 'Offline'}
-        />
-      </ModuleHeaderContainer>
-      {item === undefined ? (
+      {item ? (
+        <div>
+          <ModuleHeaderContainer>
+            <BackIcon onClick={() => history.goBack()} />
+            <ModuleTitle>{moduleId}</ModuleTitle>
+            <ModuleStatus
+              status={status}
+              title={status === true ? 'Online' : 'Offline'}
+            />
+          </ModuleHeaderContainer>
+          <HardwarePreview hardware={item.hardware} />
+        </div>
+      ) : (
         <ModuleUndefinedContainer>
           <ModuleUndefinedText>
             Modul <ModuleUndefinedTextId>{moduleId}</ModuleUndefinedTextId> sa
             nepodarilo nájsť
           </ModuleUndefinedText>
         </ModuleUndefinedContainer>
-      ) : (
-        <HardwarePreview hardware={item.hardware} />
       )}
     </ModuleOverlay>
   );

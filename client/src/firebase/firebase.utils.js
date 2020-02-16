@@ -64,8 +64,8 @@ export const getAvailableModules = async uid => {
     return modules;
   }
 
-  const modulesId = Object.keys(snapshot.val()).map(key => key);
-  modules = await mapModulesToObjects(modulesId);
+  const moduleIds = Object.keys(snapshot.val()).map(key => key);
+  modules = await mapModulesToObjects(moduleIds);
 
   return modules;
 };
@@ -123,12 +123,12 @@ export const getHardware = async (moduleId, type, id) => {
   return { ...hardwareSnapshot.val() };
 };
 
-export const mapModulesToObjects = async modulesId => {
+export const mapModulesToObjects = async moduleIds => {
   let modules = {};
 
-  for (let i = 0; i < modulesId.length; i++) {
+  for (let i = 0; i < moduleIds.length; i++) {
     try {
-      const id = modulesId[i];
+      const id = moduleIds[i];
       const moduleRef = database.ref('/modules/' + id);
       const snapshot = await moduleRef.once('value');
       if (!snapshot.exists()) continue;

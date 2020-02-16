@@ -18,7 +18,7 @@ const inputStyle = css`
 
   &:hover,
   &:focus {
-    border-color: #5c99af;
+    border-color: ${({ error }) => (error ? '#B53636' : '#5c99af')};
   }
 `;
 

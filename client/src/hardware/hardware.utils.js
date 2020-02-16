@@ -26,7 +26,7 @@ export const isFormValid = inputs =>
       if (!value.trim().length) return true;
       return !isInputValid(key, value);
     })
-    .map(value => (value ? value[0] : null));
+    .map(value => value[0]);
 
 export const addHardware = (userId, moduleId, hardware, type, ip) =>
   axios({
@@ -47,6 +47,19 @@ export const removeHardware = (userId, moduleId, id, type, ip) =>
     data: {
       userId,
       moduleId,
+      id,
+      ip
+    }
+  });
+
+export const updateHardware = (userId, moduleId, hardware, id, type, ip) =>
+  axios({
+    url: `/api/hardware/${type}`,
+    method: 'put',
+    data: {
+      userId,
+      moduleId,
+      hardware,
       id,
       ip
     }

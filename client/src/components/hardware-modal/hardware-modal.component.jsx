@@ -38,12 +38,15 @@ const HardwareModal = ({
 
   useEffect(() => {
     setInputs(getInputs(type));
+    setErrors([]);
   }, [type]);
 
   const handleSubmit = e => {
     e.preventDefault();
-    setErrors(isFormValid(inputs));
-    if (errors.length) return;
+
+    const errorArray = isFormValid(inputs);
+    setErrors(errorArray);
+    if (errorArray.length) return;
 
     onSubmit(inputs, type);
   };

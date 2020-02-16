@@ -64,7 +64,7 @@ export const ErrorMessage = styled.span`
   color: #df5b5b;
   border-top: 2px solid rgba(0, 75, 95, 0.4);
   background-color: #d0e8f0;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 4px 4px;
   z-index: 2;
 `;
 

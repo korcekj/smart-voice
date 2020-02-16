@@ -11,6 +11,7 @@ import { DashboardOverlay } from './dashboard.styles';
 
 const ModulesPage = lazy(() => import('../modules/modules.container'));
 const ModulePage = lazy(() => import('../module/module.container'));
+const HardwarePage = lazy(() => import('../hardware/hardware.container'));
 
 const DashboardPage = ({ match, fetchModulesStart }) => {
   useEffect(() => {
@@ -26,6 +27,11 @@ const DashboardPage = ({ match, fetchModulesStart }) => {
           exact
           path={`${match.path}/module/:moduleId`}
           component={ModulePage}
+        />
+        <PrivateRoute
+          exact
+          path={`${match.path}/module/:moduleId/:hardwareType/:hardwareId`}
+          component={HardwarePage}
         />
       </Suspense>
     </DashboardOverlay>

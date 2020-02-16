@@ -16,7 +16,7 @@ export const hardwareSlovakInputs = {
 };
 
 export const testInputs = {
-  name: /^[\w\W\d]{0,16}$/m,
+  name: /^([\w\W\d]{0,16})?$/m,
   numLeds: /^([1-9](\d){0,2})?$/m,
   frequency: /^([1-9](\d){0,4})?$/m,
   pin: /^([1-9](\d){0,1})?$/m

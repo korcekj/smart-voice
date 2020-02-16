@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import { ReactComponent as LeftArrowIcon } from '../../assets/icons/arrow-left.svg';
 
@@ -53,17 +52,12 @@ export const ModuleHeaderContainer = styled.div`
   padding: 1em;
 `;
 
-export const ModuleTitleLink = styled(Link)`
+export const ModuleTitle = styled.span`
   font-size: 24px;
   font-weight: bold;
   margin: 0 0.5em 0 1em;
   display: inline-block;
   color: #00465f;
-  transition: color 0.2s ease-in-out;
-
-  &:hover {
-    color: #333;
-  }
 `;
 
 export const BackIcon = styled(LeftArrowIcon)`

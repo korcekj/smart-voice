@@ -89,10 +89,35 @@ app.delete('/api/hardware/:type', async (req, res) => {
     const { type } = req.params;
 
     const response = await fetch(
-      `http://${ip}/${type}/delete?userId=${userId}&moduleId=${moduleId}`,
+      `http://${ip}/${type}/delete?id=${id}&userId=${userId}&moduleId=${moduleId}`,
       {
         method: 'post',
-        body: JSON.stringify({ id }),
+        timeout: 5000
+      }
+    );
+    const json = await response.json();
+    res.status(json.status).send(json);
+  } catch ({ message }) {
+    res.status(404).send({
+      status: 404,
+      description: {
+        rate: 'error',
+        message
+      }
+    });
+  }
+});
+
+app.put('/api/hardware/:type', async (req, res) => {
+  try {
+    const { userId, moduleId, hardware, id, ip } = req.body;
+    const { type } = req.params;
+
+    const response = await fetch(
+      `http://${ip}/${type}/update?id=${id}&userId=${userId}&moduleId=${moduleId}`,
+      {
+        method: 'post',
+        body: JSON.stringify(hardware),
         timeout: 5000
       }
     );

@@ -47,11 +47,13 @@ export const HardwarePreviewHeader = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: 0 1em;
-  height: 20px;
+  height: 25px;
   width: 100%;
 `;
 
 export const ErrorMessage = styled.span`
+  display: flex;
+  align-items: center;
   font-size: 14px;
   font-weight: bold;
   color: #df5b5b;

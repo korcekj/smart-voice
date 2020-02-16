@@ -16,6 +16,7 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
     case moduleActionTypes.REMOVE_MODULE_START:
     case moduleActionTypes.ADD_HARDWARE_START:
     case moduleActionTypes.REMOVE_HARDWARE_START:
+    case moduleActionTypes.UPDATE_HARDWARE_START:
       return {
         ...state,
         isFetching: true,
@@ -65,6 +66,7 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
         }
       };
     case moduleActionTypes.ADD_HARDWARE_SUCCESS:
+    case moduleActionTypes.UPDATE_HARDWARE_SUCCESS:
       return {
         ...state,
         availableModules: {
@@ -133,6 +135,7 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
     case moduleActionTypes.REMOVE_MODULE_FAILURE:
     case moduleActionTypes.ADD_HARDWARE_FAILURE:
     case moduleActionTypes.REMOVE_HARDWARE_FAILURE:
+    case moduleActionTypes.UPDATE_HARDWARE_FAILURE:
       return {
         ...state,
         isFetching: false,

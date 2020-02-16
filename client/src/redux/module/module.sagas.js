@@ -20,7 +20,9 @@ import {
   addHardwareSuccess,
   addHardwareFailure,
   removeHardwareSuccess,
-  removeHardwareFailure
+  removeHardwareFailure,
+  updateHardwareSuccess,
+  updateHardwareFailure
 } from './module.actions';
 import { selectCurrentUser } from '../user/user.selectors';
 import { selectModule } from '../module/module.selectors';
@@ -92,6 +94,19 @@ export function* removeHardwareAsync({ payload: { id, type, moduleId } }) {
   }
 }
 
+export function* updateHardwareAsync({
+  payload: { id, hardware, type, moduleId }
+}) {
+  try {
+    const { id: userId } = yield select(selectCurrentUser);
+    const {
+      data: { ip }
+    } = yield select(state => selectModule(moduleId)(state));
+  } catch ({ message }) {
+    yield put(updateHardwareFailure(message));
+  }
+}
+
 export function* fetchModulesStart() {
   yield takeLatest(moduleActionTypes.FETCH_MODULES_START, fetchModulesAsync);
 }
@@ -115,12 +130,20 @@ export function* removeHardwareStart() {
   );
 }
 
+export function* updateHardwareStart() {
+  yield takeLatest(
+    moduleActionTypes.UPDATE_HARDWARE_START,
+    updateHardwareAsync
+  );
+}
+
 export function* moduleSagas() {
   yield all([
     call(fetchModulesStart),
     call(addModuleStart),
     call(removeModuleStart),
     call(addHardwareStart),
-    call(removeHardwareStart)
+    call(removeHardwareStart),
+    call(updateHardwareStart)
   ]);
 }

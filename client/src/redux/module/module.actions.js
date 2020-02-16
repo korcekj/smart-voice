@@ -90,3 +90,28 @@ export const removeHardwareFailure = errorMessage => ({
   type: moduleActionTypes.REMOVE_HARDWARE_FAILURE,
   payload: errorMessage
 });
+
+export const updateHardwareStart = (id, hardware, type, moduleId) => ({
+  type: moduleActionTypes.UPDATE_HARDWARE_START,
+  payload: {
+    id,
+    hardware,
+    type,
+    moduleId
+  }
+});
+
+export const updateHardwareSuccess = (id, hardware, type, moduleId) => ({
+  type: moduleActionTypes.UPDATE_HARDWARE_SUCCESS,
+  payload: {
+    id,
+    hardware,
+    type,
+    moduleId
+  }
+});
+
+export const updateHardwareFailure = errorMessage => ({
+  type: moduleActionTypes.UPDATE_HARDWARE_FAILURE,
+  payload: errorMessage
+});
