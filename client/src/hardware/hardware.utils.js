@@ -3,27 +3,38 @@ import axios from 'axios';
 import {
   hardwareTypes,
   testInputs,
-  ledInputs,
-  remoteInputs
+  ledCreateInputs,
+  remoteCreateInputs,
+  ledUpdateInputs
 } from './hardware.types';
 
-export const getInputs = type => {
+export const getInputsForCreate = type => {
   switch (type) {
     case hardwareTypes.led:
-      return ledInputs;
+      return ledCreateInputs;
     case hardwareTypes.remote:
-      return remoteInputs;
+      return remoteCreateInputs;
     default:
-      return ledInputs;
+      return ledCreateInputs;
   }
 };
 
-export const isInputValid = (name, value) => testInputs[name].test(value);
+export const getInputsForUpdate = type => {
+  switch (type) {
+    case hardwareTypes.led:
+      return ledUpdateInputs;
+    default:
+      return ledUpdateInputs;
+  }
+};
+
+export const isInputValid = (name, value) =>
+  testInputs[name].test(value.toString());
 
 export const isFormValid = inputs =>
   Object.entries(inputs)
     .filter(([key, value]) => {
-      if (!value.trim().length) return true;
+      if (!value.toString().trim().length) return true;
       return !isInputValid(key, value);
     })
     .map(value => value[0]);

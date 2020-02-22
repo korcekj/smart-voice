@@ -3,8 +3,7 @@ import { compose } from 'redux';
 
 import {
   selectHardware,
-  selectAreModulesFetched,
-  selectIsFetching
+  selectAreModulesFetched
 } from '../../redux/module/module.selectors';
 import { removeHardwareStart } from '../../redux/module/module.actions';
 
@@ -22,8 +21,7 @@ const mapStateToProps = (state, { match: { params } }) => ({
     params.hardwareType,
     params.hardwareId
   )(state),
-  isLoading: !selectAreModulesFetched(state),
-  isFetching: selectIsFetching(state)
+  isLoading: !selectAreModulesFetched(state)
 });
 
 export default compose(

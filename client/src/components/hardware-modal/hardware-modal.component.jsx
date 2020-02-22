@@ -8,7 +8,7 @@ import {
   capitalize
 } from '../../hardware/hardware.types';
 import {
-  getInputs,
+  getInputsForCreate,
   isInputValid,
   isFormValid
 } from '../../hardware/hardware.utils';
@@ -37,7 +37,7 @@ const HardwareModal = ({
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    setInputs(getInputs(type));
+    setInputs(getInputsForCreate(type));
     setErrors([]);
   }, [type]);
 
@@ -79,17 +79,18 @@ const HardwareModal = ({
             </option>
           ))}
         </ModalSelect>
-        {Object.entries(inputs).map(([key, value]) => (
-          <ModalInput
-            type='text'
-            key={key}
-            value={value}
-            name={key}
-            placeholder={capitalize(hardwareSlovakInputs[key])}
-            error={errors.includes(key)}
-            onChange={handleInputChange}
-          />
-        ))}
+        {Object.keys(inputs).length &&
+          Object.entries(inputs).map(([key, value]) => (
+            <ModalInput
+              type='text'
+              key={key}
+              value={value}
+              name={key}
+              placeholder={capitalize(hardwareSlovakInputs[key])}
+              error={errors.includes(key)}
+              onChange={handleInputChange}
+            />
+          ))}
         <CustomButton type='submit'>Pridaj</CustomButton>
       </ModalForm>
     </Modal>

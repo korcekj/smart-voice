@@ -1,5 +1,7 @@
 import React from 'react';
 
+import HardwareForm from '../../components/hardware-form/hardware-form.component';
+
 import {
   HardwareOverlay,
   HardwareUndefinedContainer,
@@ -11,13 +13,7 @@ import {
   DeleteIcon
 } from './hardware.styles';
 
-const HardwarePage = ({
-  hardware,
-  removeHardware,
-  isFetching,
-  match,
-  history
-}) => {
+const HardwarePage = ({ hardware, removeHardware, match, history }) => {
   const { moduleId, hardwareType, hardwareId } = match.params;
 
   const onRemoveHardware = () => {
@@ -28,13 +24,16 @@ const HardwarePage = ({
   return (
     <HardwareOverlay>
       {hardware ? (
-        <HardwareHeaderContainer>
-          <div>
-            <BackIcon onClick={() => history.goBack()} />
-            <HardwareTitle>{hardware.name}</HardwareTitle>
-          </div>
-          <DeleteIcon onClick={onRemoveHardware} />
-        </HardwareHeaderContainer>
+        <div>
+          <HardwareHeaderContainer>
+            <div>
+              <BackIcon onClick={() => history.goBack()} />
+              <HardwareTitle>{hardware.name}</HardwareTitle>
+            </div>
+            <DeleteIcon onClick={onRemoveHardware} />
+          </HardwareHeaderContainer>
+          <HardwareForm type={hardwareType} hardware={hardware} />
+        </div>
       ) : (
         <HardwareUndefinedContainer>
           <HardwareUndefinedText>
