@@ -44,11 +44,12 @@ export const CustomButtonContainer = styled.button`
   font-size: 14px;
   font-weight: bolder;
   border-radius: 3px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   outline: none;
+  opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
 
   ${getButtonStyles}
 `;

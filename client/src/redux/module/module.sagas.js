@@ -8,7 +8,11 @@ import {
   getHardware
 } from '../../firebase/firebase.utils';
 
-import { addHardware, removeHardware } from '../../hardware/hardware.utils';
+import {
+  addHardware,
+  removeHardware,
+  updateHardware
+} from '../../hardware/hardware.utils';
 
 import {
   fetchModulesSuccess,
@@ -102,6 +106,11 @@ export function* updateHardwareAsync({
     const {
       data: { ip }
     } = yield select(state => selectModule(moduleId)(state));
+    yield call(updateHardware, userId, moduleId, hardware, id, type, ip);
+    const data = yield call(getHardware, moduleId, type, id);
+    console.log(data);
+    if (!data) yield put(updateHardwareFailure('Failed to update hardware'));
+    else yield put(updateHardwareSuccess(id, data, type, moduleId));
   } catch ({ message }) {
     yield put(updateHardwareFailure(message));
   }

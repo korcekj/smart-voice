@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import { getInputsForUpdate } from '../../hardware/hardware.utils';
+import { getInputsForUpdate, isFormValid } from '../../hardware/hardware.utils';
 
 import HardwareInput from '../hardware-input/hardware-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import { HardwareFormContainer } from './hardware-form.styles';
 
-const HardwareForm = ({ type, hardware }) => {
+const HardwareForm = ({ hardware, type, updateHardware }) => {
   const [inputs, setInputs] = useState(hardware);
   const [template, setTemplate] = useState({});
 
@@ -17,12 +17,21 @@ const HardwareForm = ({ type, hardware }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(inputs);
+
+    if (isFormValid(inputs)) onUpdateHardware(inputs);
+  };
+
+  const onUpdateHardware = hardware => {
+    updateHardware(hardware);
   };
 
   const handleInputChange = (e, submit = false) => {
     const { value, name } = e.target;
-    setInputs({ ...inputs, [name]: value });
+    const newInputs = { ...inputs, [name]: value };
+
+    setInputs(newInputs);
+
+    if (submit) onUpdateHardware(newInputs);
   };
 
   return (
@@ -33,6 +42,7 @@ const HardwareForm = ({ type, hardware }) => {
             key={key}
             {...props}
             withTitle={title}
+            mode={inputs.mode || 0}
             name={key}
             value={inputs[key]}
             handleChange={handleInputChange}

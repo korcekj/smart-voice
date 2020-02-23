@@ -4,6 +4,7 @@ import { ReactComponent as LeftArrowIcon } from '../../assets/icons/arrow-left.s
 import { ReactComponent as TrashCanIcon } from '../../assets/icons/trash-can.svg';
 
 export const HardwareOverlay = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   max-width: 1100px;

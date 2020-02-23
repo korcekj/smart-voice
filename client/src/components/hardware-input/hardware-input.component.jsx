@@ -18,38 +18,78 @@ import {
   InputSwitch,
   SwitchSlider,
   InputRadioContainer,
+  InputRadioLabel,
   InputRadio,
   RadioCheckmark
 } from './hardware-input.styles';
 
-const HardwareInput = ({ type, withTitle, handleChange, ...props }) => {
+const HardwareInput = ({
+  type,
+  withTitle,
+  disabled,
+  mode,
+  handleChange,
+  ...props
+}) => {
   const { name, value } = props;
 
-  const renderColorButtons = () =>
-    Object.entries(value).map(([id, color]) => (
-      <ColorButton
-        key={id}
-        color={color}
-        onChange={rgb =>
-          handleChange({ target: { name, value: { ...value, [id]: rgb } } })
-        }
-      />
-    ));
+  const renderColorButtons = () => {
+    let elements = [];
+
+    if (!value) return elements;
+
+    const number = props.numbers ? props.numbers[mode] || 0 : 0;
+
+    for (let i = 0; i < number; i++) {
+      if (Object.entries(value)[i]) {
+        const [id, color] = Object.entries(value)[i];
+        elements.push(
+          <ColorButton
+            key={id}
+            color={color}
+            onChange={rgb =>
+              handleChange({
+                target: { name, value: { ...value, [id]: rgb } }
+              })
+            }
+          />
+        );
+      } else {
+        const id = `color${i}`;
+        elements.push(
+          <ColorButton
+            key={id}
+            onChange={rgb =>
+              handleChange({
+                target: { name, value: { ...value, [id]: rgb } }
+              })
+            }
+          />
+        );
+      }
+    }
+
+    return elements;
+  };
 
   const renderRadioButtons = () => {
     let elements = [];
 
     for (let i = 0; i < props.number; i++) {
       elements.push(
-        <InputRadioContainer key={i}>
-          <InputRadio
-            {...props}
-            value={i}
-            checked={Number(value) === i}
-            onChange={handleChange}
-          />
-          <RadioCheckmark />
-        </InputRadioContainer>
+        <Container key={i}>
+          <InputRadioContainer>
+            <InputRadio
+              {...props}
+              value={i}
+              checked={Number(value) === i}
+              onChange={handleChange}
+            />
+            <RadioCheckmark />
+          </InputRadioContainer>
+          <InputRadioLabel bold={Number(value) === i}>{`${i +
+            1}.`}</InputRadioLabel>
+        </Container>
       );
     }
 
@@ -92,7 +132,10 @@ const HardwareInput = ({ type, withTitle, handleChange, ...props }) => {
   };
 
   return (
-    <InputContainer border={withTitle}>
+    <InputContainer
+      border={withTitle}
+      disabled={disabled.includes(Number(mode))}
+    >
       {withTitle && <InputTitle>{hardwareSlovakInputs[name]}</InputTitle>}
       {renderInput()}
     </InputContainer>

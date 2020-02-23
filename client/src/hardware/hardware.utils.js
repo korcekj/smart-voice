@@ -29,12 +29,13 @@ export const getInputsForUpdate = type => {
 };
 
 export const isInputValid = (name, value) =>
-  testInputs[name].test(value.toString());
+  testInputs[name] ? testInputs[name].test(value.toString()) : true;
 
 export const isFormValid = inputs =>
   Object.entries(inputs)
     .filter(([key, value]) => {
-      if (!value.toString().trim().length) return true;
+      if (typeof value === 'object') return false;
+      else if (!value.toString().trim().length) return true;
       return !isInputValid(key, value);
     })
     .map(value => value[0]);

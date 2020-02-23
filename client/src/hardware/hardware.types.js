@@ -49,14 +49,16 @@ export const ledUpdateInputs = {
   status: {
     title: false,
     props: {
+      disabled: [],
       type: inputTypes.checkbox
     }
   },
   mode: {
     title: true,
     props: {
-      type: inputTypes.radio,
-      number: 3
+      number: 3,
+      disabled: [],
+      type: inputTypes.radio
     }
   },
   brightness: {
@@ -64,12 +66,16 @@ export const ledUpdateInputs = {
     props: {
       min: 0,
       max: 100,
+      step: 5,
+      disabled: [],
       type: inputTypes.range
     }
   },
   colors: {
     title: true,
     props: {
+      numbers: [1, 3, 0],
+      disabled: [2],
       type: inputTypes.color
     }
   },
@@ -78,6 +84,8 @@ export const ledUpdateInputs = {
     props: {
       min: 0,
       max: 1000,
+      step: 10,
+      disabled: [0],
       type: inputTypes.range
     }
   }

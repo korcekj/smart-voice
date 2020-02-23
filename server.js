@@ -20,6 +20,7 @@ app.get('/service-worker.js', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'build', 'service-worker.js'));
 });
 
+// Get local devices and their info
 app.get('/api/local-devices', async (req, res) => {
   try {
     const devices = await find();
@@ -38,6 +39,7 @@ app.get('/api/local-devices', async (req, res) => {
   }
 });
 
+// Ping module and send proper response
 app.post('/api/module', async (req, res) => {
   try {
     const { ip } = req.body;
@@ -57,6 +59,7 @@ app.post('/api/module', async (req, res) => {
   }
 });
 
+// Create hardware type
 app.post('/api/hardware/:type', async (req, res) => {
   try {
     const { userId, moduleId, hardware, ip } = req.body;
@@ -83,6 +86,7 @@ app.post('/api/hardware/:type', async (req, res) => {
   }
 });
 
+// Delete hardware type
 app.delete('/api/hardware/:type', async (req, res) => {
   try {
     const { userId, moduleId, id, ip } = req.body;
@@ -108,6 +112,7 @@ app.delete('/api/hardware/:type', async (req, res) => {
   }
 });
 
+// Update hardware type
 app.put('/api/hardware/:type', async (req, res) => {
   try {
     const { userId, moduleId, hardware, id, ip } = req.body;

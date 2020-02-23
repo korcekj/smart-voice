@@ -28,6 +28,10 @@ export const GlobalStyles = createGlobalStyle`
     overflow-y: hidden;
   }
 
+  .ReactModal__Overlay--after-open {
+    background-color: rgba(208, 232, 240, 0.4) !important;
+  }
+
   .ReactModal__Content {
     padding: 1em 1.5em !important;
     display: inline-block;

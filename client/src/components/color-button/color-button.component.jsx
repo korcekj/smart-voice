@@ -8,7 +8,9 @@ import {
   CoverContainer
 } from './color-button.styles';
 
-const ColorButton = ({ color, onChange }) => {
+const defaultColor = { r: 255, g: 255, b: 255, a: 1 };
+
+const ColorButton = ({ color = defaultColor, onChange }) => {
   const [isHidden, setIsHidden] = useState(true);
 
   const handleColorChange = ({ rgb }) => {

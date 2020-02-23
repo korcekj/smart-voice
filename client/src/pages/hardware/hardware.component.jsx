@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Spinner from '../../components/spinner/spinner.component';
 import HardwareForm from '../../components/hardware-form/hardware-form.component';
 
 import {
@@ -13,7 +14,14 @@ import {
   DeleteIcon
 } from './hardware.styles';
 
-const HardwarePage = ({ hardware, removeHardware, match, history }) => {
+const HardwarePage = ({
+  hardware,
+  removeHardware,
+  updateHardware,
+  isFetching,
+  match,
+  history
+}) => {
   const { moduleId, hardwareType, hardwareId } = match.params;
 
   const onRemoveHardware = () => {
@@ -21,10 +29,15 @@ const HardwarePage = ({ hardware, removeHardware, match, history }) => {
     history.goBack();
   };
 
+  const onUpdateHardware = hardware => {
+    updateHardware(hardwareId, hardware, hardwareType, moduleId);
+  };
+
   return (
     <HardwareOverlay>
       {hardware ? (
         <div>
+          {isFetching && <Spinner float={true} />}
           <HardwareHeaderContainer>
             <div>
               <BackIcon onClick={() => history.goBack()} />
@@ -32,7 +45,11 @@ const HardwarePage = ({ hardware, removeHardware, match, history }) => {
             </div>
             <DeleteIcon onClick={onRemoveHardware} />
           </HardwareHeaderContainer>
-          <HardwareForm type={hardwareType} hardware={hardware} />
+          <HardwareForm
+            type={hardwareType}
+            hardware={hardware}
+            updateHardware={onUpdateHardware}
+          />
         </div>
       ) : (
         <HardwareUndefinedContainer>

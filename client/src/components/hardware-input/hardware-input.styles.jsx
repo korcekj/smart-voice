@@ -1,9 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: ${({ space }) => space && `space-${space}`};
+const disabledStyles = css`
+  opacity: 0.4;
+  pointer-events: none;
 `;
 
 export const InputContainer = styled.div`
@@ -12,6 +11,13 @@ export const InputContainer = styled.div`
   margin-bottom: 1.5em;
   ${({ border }) => border && 'border: 2px solid rgba(0, 75, 95, 0.4)'};
   border-radius: 6px;
+  ${({ disabled }) => disabled && disabledStyles};
+`;
+
+export const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: ${({ space }) => space && `space-${space}`};
 `;
 
 export const InputTitle = styled.h3`
@@ -126,7 +132,7 @@ export const InputSwitch = styled.input.attrs({ type: 'checkbox' })`
 `;
 
 export const InputSwitchLabel = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   color: #00465f;
   ${({ bold }) => bold && 'font-weight: bold'};
 `;
@@ -137,6 +143,13 @@ export const InputRadioContainer = styled.div`
   height: 25px;
 `;
 
+export const InputRadioLabel = styled.span`
+  font-size: 14px;
+  color: #00465f;
+  margin-left: 1em;
+  ${({ bold }) => bold && 'font-weight: bold'};
+`;
+
 export const RadioCheckmark = styled.div`
   position: absolute;
   top: 0;
@@ -144,7 +157,7 @@ export const RadioCheckmark = styled.div`
   height: 100%;
   width: 100%;
   background-color: #d0e8f0;
-  border-radius: 50%;
+  border-radius: 3px;
   pointer-events: none;
   transition: all 0.2s ease-in-out;
 
@@ -156,7 +169,7 @@ export const RadioCheckmark = styled.div`
     left: 50%;
     width: 10px;
     height: 10px;
-    border-radius: 50%;
+    border-radius: 1px;
     background-color: white;
     transform: translate(-50%, -50%);
   }
