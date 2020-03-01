@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { moduleActionTypes } from '../../redux/module/module.types';
 
 import Spinner from '../../components/spinner/spinner.component';
+import RecognitionInput from '../../components/recognition-input/recognition-input.component';
 import HardwareForm from '../../components/hardware-form/hardware-form.component';
 
 import {
@@ -19,18 +22,28 @@ const HardwarePage = ({
   removeHardware,
   updateHardware,
   isFetching,
+  error,
   match,
   history
 }) => {
+  const [errorMessage, setErrorMessage] = useState(null);
   const { moduleId, hardwareType, hardwareId } = match.params;
 
+  useEffect(() => {
+    if (error.type === moduleActionTypes.UPDATE_HARDWARE_FAILURE) {
+      setErrorMessage('Hardware sa nepodarilo aktualizovať');
+    }
+  }, [error]);
+
   const onRemoveHardware = () => {
+    setErrorMessage(null);
     removeHardware(hardwareId, hardwareType, moduleId);
     history.goBack();
   };
 
-  const onUpdateHardware = hardware => {
-    updateHardware(hardwareId, hardware, hardwareType, moduleId);
+  const onUpdateHardware = data => {
+    setErrorMessage(null);
+    updateHardware(hardwareId, data, hardwareType, moduleId);
   };
 
   return (
@@ -42,13 +55,15 @@ const HardwarePage = ({
             <div>
               <BackIcon onClick={() => history.goBack()} />
               <HardwareTitle>{hardware.name}</HardwareTitle>
-            </div>
+            </div>{' '}
             <DeleteIcon onClick={onRemoveHardware} />
           </HardwareHeaderContainer>
+          <RecognitionInput />
           <HardwareForm
             type={hardwareType}
             hardware={hardware}
             updateHardware={onUpdateHardware}
+            isError={!!errorMessage}
           />
         </div>
       ) : (

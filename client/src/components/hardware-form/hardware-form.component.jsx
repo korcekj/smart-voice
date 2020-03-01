@@ -7,13 +7,14 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import { HardwareFormContainer } from './hardware-form.styles';
 
-const HardwareForm = ({ hardware, type, updateHardware }) => {
+const HardwareForm = ({ hardware, type, updateHardware, isError }) => {
   const [inputs, setInputs] = useState(hardware);
   const [template, setTemplate] = useState({});
 
   useEffect(() => {
+    if (isError) setInputs(hardware);
     setTemplate(getInputsForUpdate(type));
-  }, [type]);
+  }, [type, hardware, isError]);
 
   const handleSubmit = e => {
     e.preventDefault();

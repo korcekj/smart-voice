@@ -35,6 +35,8 @@ const HardwarePreview = ({
   useEffect(() => {
     if (error.type === moduleActionTypes.ADD_HARDWARE_FAILURE) {
       setErrorMessage('Hardware sa nepodarilo pridať');
+    } else if (error.type === moduleActionTypes.REMOVE_HARDWARE_FAILURE) {
+      setErrorMessage('Hardware sa nepodarilo vymazať');
     }
   }, [error]);
 

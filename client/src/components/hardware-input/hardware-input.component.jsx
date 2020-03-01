@@ -36,12 +36,10 @@ const HardwareInput = ({
   const renderColorButtons = () => {
     let elements = [];
 
-    if (!value) return elements;
-
     const number = props.numbers ? props.numbers[mode] || 0 : 0;
 
     for (let i = 0; i < number; i++) {
-      if (Object.entries(value)[i]) {
+      if (value && Object.entries(value)[i]) {
         const [id, color] = Object.entries(value)[i];
         elements.push(
           <ColorButton
