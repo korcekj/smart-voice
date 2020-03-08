@@ -8,7 +8,11 @@ import { moduleActionTypes } from '../../redux/module/module.types';
 import { selectError } from '../../redux/module/module.selectors';
 
 import { getModuleStatus } from '../../esp8266/esp8266.utils';
-import { removeModuleStart } from '../../redux/module/module.actions';
+import {
+  removeModuleStart,
+  clearError
+} from '../../redux/module/module.actions';
+import { setMessage } from '../../redux/flash-message/flash-message.actions';
 
 import {
   ModuleItemContainer,
@@ -16,13 +20,18 @@ import {
   DeleteIcon,
   ItemTitle,
   ItemSubtitle,
-  ModuleStatus,
-  ErrorMessage
+  ModuleStatus
 } from './module-item.styles';
 
-const ModuleItem = ({ mac, ip, removeModule, error, match }) => {
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [triggered, setTriggered] = useState(false);
+const ModuleItem = ({
+  mac,
+  ip,
+  removeModule,
+  setMessage,
+  clearError,
+  error,
+  match
+}) => {
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
@@ -38,26 +47,26 @@ const ModuleItem = ({ mac, ip, removeModule, error, match }) => {
 
     asyncFun();
 
-    if (error.type === moduleActionTypes.REMOVE_MODULE_FAILURE && triggered) {
-      setTriggered(false);
-      setErrorMessage('Zariadenie sa nepodarilo vymazať');
+    if (error.type === moduleActionTypes.REMOVE_MODULE_FAILURE) {
+      setMessage({
+        message: 'Zariadenie sa nepodarilo vymazať',
+        type: 'error'
+      });
+      clearError();
     }
 
     return () => {
       isMounted = false;
     };
-  }, [ip, error, triggered]);
+  }, [ip, error, setMessage, clearError]);
 
   const onRemoveModule = e => {
     e.preventDefault();
-    setTriggered(true);
-    setErrorMessage(null);
     removeModule(mac);
   };
 
   return (
     <ModuleItemContainer to={`${match.path}/module/${mac}`}>
-      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <ModuleIcon />
       <ItemTitle>{mac}</ItemTitle>
       <ItemSubtitle>{ip}</ItemSubtitle>
@@ -72,7 +81,9 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  removeModule: mac => dispatch(removeModuleStart(mac))
+  removeModule: mac => dispatch(removeModuleStart(mac)),
+  clearError: () => dispatch(clearError()),
+  setMessage: data => dispatch(setMessage(data))
 });
 
 export default connect(

@@ -7,15 +7,17 @@ import HardwarePreview from '../../components/hardware-preview/hardware-preview.
 import {
   ModuleOverlay,
   ModuleHeaderContainer,
+  ModuleInfo,
   ModuleTitle,
   BackIcon,
   ModuleStatus,
+  LoadingSpinner,
   ModuleUndefinedContainer,
   ModuleUndefinedText,
   ModuleUndefinedTextId
 } from './module.styles';
 
-const ModulePage = ({ module: item, history, match }) => {
+const ModulePage = ({ module: item, history, isFetching, match }) => {
   const [status, setStatus] = useState(null);
 
   const { moduleId } = match.params;
@@ -44,12 +46,15 @@ const ModulePage = ({ module: item, history, match }) => {
       {item ? (
         <div>
           <ModuleHeaderContainer>
-            <BackIcon onClick={() => history.goBack()} />
-            <ModuleTitle>{moduleId}</ModuleTitle>
-            <ModuleStatus
-              status={status}
-              title={status === true ? 'Online' : 'Offline'}
-            />
+            <ModuleInfo>
+              <BackIcon onClick={() => history.goBack()} />
+              <ModuleTitle>{moduleId}</ModuleTitle>
+              <ModuleStatus
+                status={status}
+                title={status === true ? 'Online' : 'Offline'}
+              />
+            </ModuleInfo>
+            {isFetching && <LoadingSpinner />}
           </ModuleHeaderContainer>
           <HardwarePreview hardware={item.hardware} />
         </div>

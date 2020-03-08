@@ -99,25 +99,6 @@ export const DeleteIcon = styled(TrashIcon)`
   }
 `;
 
-export const ErrorMessage = styled.span`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  bottom: 0;
-  left: 0;
-  padding: 0 2em;
-  width: 100%;
-  height: 33%;
-  font-weight: bold;
-  font-size: 14px;
-  color: #df5b5b;
-  border-top: 2px solid rgba(0, 75, 95, 0.4);
-  background-color: #d0e8f0;
-  border-radius: 0 0 6px 6px;
-  z-index: 2;
-`;
-
 export const ModuleItemContainer = styled(Link)`
   width: 100%;
   position: relative;

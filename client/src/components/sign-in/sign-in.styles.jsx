@@ -13,15 +13,8 @@ export const Title = styled.h2`
   text-align: center;
   color: #00465f;
   padding-bottom: 1em;
-  margin: 0 0 1em 0;
+  margin: 0;
   border-bottom: 2px solid #00465f;
-`;
-
-export const ErrorText = styled.span`
-  font-size: 14px;
-  font-weight: bold;
-  color: #df5b5b;
-  text-align: center;
 `;
 
 export const ButtonsContainer = styled.div`

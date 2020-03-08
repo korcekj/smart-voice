@@ -38,6 +38,16 @@ export const ModuleStatus = styled.div`
   ${selectStatusStyle}
 `;
 
+export const LoadingSpinner = styled.div`
+  width: 15px;
+  height: 15px;
+  margin-left: 1em;
+  border: 2px solid transparent;
+  border-radius: 50%;
+
+  ${spinnerStyle}
+`;
+
 export const ModuleOverlay = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,8 +58,14 @@ export const ModuleOverlay = styled.div`
 export const ModuleHeaderContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   padding: 1em;
+`;
+
+export const ModuleInfo = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
 `;
 
 export const ModuleTitle = styled.span`
@@ -61,7 +77,8 @@ export const ModuleTitle = styled.span`
 `;
 
 export const BackIcon = styled(LeftArrowIcon)`
-  width: 10px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 

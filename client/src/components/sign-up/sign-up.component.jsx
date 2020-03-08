@@ -7,32 +7,39 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import { userActionTypes } from '../../redux/user/user.types';
 import { selectError } from '../../redux/user/user.selectors';
-import { signUpStart } from '../../redux/user/user.actions';
+import { signUpStart, clearError } from '../../redux/user/user.actions';
+import { setMessage } from '../../redux/flash-message/flash-message.actions';
 
-import { SignUpContainer } from './sign-up-styles';
-import { ErrorText, Title } from '../sign-in/sign-in.styles';
+import { SignUpContainer, Title } from './sign-up-styles';
 
-const SignUp = ({ signUpStart, error }) => {
+const SignUp = ({ signUpStart, setMessage, clearError, error }) => {
   const [credentials, setCredentials] = useState({
     displayName: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-  const [errorMessage, setErrorMessage] = useState(null);
 
   const { displayName, email, password, confirmPassword } = credentials;
 
   useEffect(() => {
-    if (error.type === userActionTypes.SIGN_UP_FAILURE)
-      setErrorMessage('Nepodarilo sa zaregistrovať');
-  }, [error]);
+    if (error.type === userActionTypes.SIGN_UP_FAILURE) {
+      setMessage({
+        message: 'Nepodarilo sa zaregistrovať',
+        type: 'error'
+      });
+      clearError();
+    }
+  }, [error, setMessage, clearError]);
 
   const handleSubmit = e => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setErrorMessage('Heslá sa nezhodujú');
+      setMessage({
+        message: 'Heslá sa nezhodujú',
+        type: 'error'
+      });
       return;
     }
 
@@ -48,8 +55,6 @@ const SignUp = ({ signUpStart, error }) => {
   return (
     <SignUpContainer>
       <Title>Chcem sa zaregistrovať</Title>
-      {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-
       <form onSubmit={handleSubmit}>
         <FormInput
           type='text'
@@ -91,7 +96,9 @@ const SignUp = ({ signUpStart, error }) => {
 
 const mapDispatchToProps = dispatch => ({
   signUpStart: (email, password, displayName) =>
-    dispatch(signUpStart({ email, password, displayName }))
+    dispatch(signUpStart({ email, password, displayName })),
+  clearError: () => dispatch(clearError()),
+  setMessage: data => dispatch(setMessage(data))
 });
 
 const mapStateToProps = createStructuredSelector({

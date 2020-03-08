@@ -7,7 +7,8 @@ import {
   TranscriptContainer,
   MicrophoneOn,
   MicrophoneOff,
-  RemoveButton
+  RemoveButton,
+  BouncingDot
 } from './recognition-input.styles';
 
 const options = {
@@ -41,7 +42,16 @@ const RecognitionInput = ({
         <MicrophoneOff onClick={startListening} />
       )}
       <TranscriptContainer>
-        {finalTranscript ? finalTranscript : transcript}
+        {finalTranscript
+          ? finalTranscript
+          : transcript || (
+              <React.Fragment>
+                Žačni domácnosť ovládať hlasom
+                <BouncingDot>.</BouncingDot>
+                <BouncingDot delay={0.4}>.</BouncingDot>
+                <BouncingDot delay={1.2}>.</BouncingDot>
+              </React.Fragment>
+            )}
       </TranscriptContainer>
       {finalTranscript && <RemoveButton onClick={resetTranscript} />}
     </RecognitionContainer>

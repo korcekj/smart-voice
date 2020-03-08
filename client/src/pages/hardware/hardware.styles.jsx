@@ -11,6 +11,8 @@ export const HardwareOverlay = styled.div`
   margin: 1em auto;
 `;
 
+export const HardwareContainer = styled.div``;
+
 export const HardwareHeaderContainer = styled.div`
   display: flex;
   align-items: center;
@@ -19,15 +21,25 @@ export const HardwareHeaderContainer = styled.div`
 `;
 
 export const HardwareTitle = styled.span`
+  position: relative;
+  display: inline-block;
   font-size: 24px;
   font-weight: bold;
   margin: 0 1em;
-  display: inline-block;
   color: #00465f;
 `;
 
+export const HardwareSubtitle = styled.div`
+  position: relative;
+  bottom: 2px;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0 0.2em;
+`;
+
 export const BackIcon = styled(LeftArrowIcon)`
-  width: 10px;
+  width: 18px;
+  height: 18px;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
 
@@ -37,9 +49,10 @@ export const BackIcon = styled(LeftArrowIcon)`
 `;
 
 export const DeleteIcon = styled(TrashCanIcon)`
-  width: 16px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 
   &:hover {
     transform: scale(1.06);

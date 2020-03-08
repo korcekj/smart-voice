@@ -5,15 +5,14 @@ import { hardwareTypes } from '../../hardware/hardware.types';
 
 import HardwareModal from '../hardware-modal/hardware-modal.component';
 import HardwareItem from '../hardware-item/hardware-item.component';
+import IconButton from '../icon-button/icon-button.component';
+import { ReactComponent as PlusIcon } from '../../assets/icons/add.svg';
 
 import {
   HardwarePreviewOverlay,
   HardwarePreviewContainer,
-  HardwarePreviewHeader,
   HardwareContainer,
-  HardwareOverlay,
-  ErrorMessage,
-  LoadingSpinner
+  HardwareOverlay
 } from './hardware-preview.styles';
 
 const HardwarePreview = ({
@@ -21,10 +20,10 @@ const HardwarePreview = ({
   error,
   addHardware,
   removeHardware,
-  isFetching,
+  setMessage,
+  clearError,
   match
 }) => {
-  const [errorMessage, setErrorMessage] = useState(null);
   const [modalStatus, setModalStatus] = useState({
     type: hardwareTypes.led,
     open: false
@@ -34,11 +33,19 @@ const HardwarePreview = ({
 
   useEffect(() => {
     if (error.type === moduleActionTypes.ADD_HARDWARE_FAILURE) {
-      setErrorMessage('Hardware sa nepodarilo pridať');
+      setMessage({
+        message: 'Hardware sa nepodarilo pridať',
+        type: 'error'
+      });
+      clearError();
     } else if (error.type === moduleActionTypes.REMOVE_HARDWARE_FAILURE) {
-      setErrorMessage('Hardware sa nepodarilo vymazať');
+      setMessage({
+        message: 'Hardware sa nepodarilo vymazať',
+        type: 'error'
+      });
+      clearError();
     }
-  }, [error]);
+  }, [error, setMessage, clearError]);
 
   const onAddHardwareStart = type => {
     setModalStatus({ type, open: true });
@@ -53,22 +60,16 @@ const HardwarePreview = ({
   };
 
   const onAddHardware = (hardware, type) => {
-    setErrorMessage(null);
     setIsModalOpen(false);
     addHardware(hardware, type, moduleId);
   };
 
   const onRemoveHardware = (id, type) => {
-    setErrorMessage(null);
     removeHardware(id, type, moduleId);
   };
 
   return (
     <HardwarePreviewOverlay>
-      <HardwarePreviewHeader>
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        {isFetching && <LoadingSpinner />}
-      </HardwarePreviewHeader>
       <HardwarePreviewContainer>
         <HardwareOverlay>
           <HardwareContainer>
@@ -93,6 +94,9 @@ const HardwarePreview = ({
                 />
               );
             })}
+            <IconButton float={true} onClick={() => setIsModalOpen(true)}>
+              <PlusIcon />
+            </IconButton>
           </HardwareContainer>
         </HardwareOverlay>
       </HardwarePreviewContainer>

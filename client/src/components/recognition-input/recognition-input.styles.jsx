@@ -4,7 +4,7 @@ import { ReactComponent as MicrophoneOnIcon } from '../../assets/icons/microphon
 import { ReactComponent as MicrophoneOffIcon } from '../../assets/icons/microphone-off.svg';
 import { ReactComponent as RemoveIcon } from '../../assets/icons/remove.svg';
 
-const iconStyle = css`
+const iconStyles = css`
   width: 25px;
   height: 25px;
   margin: 0 1em;
@@ -25,6 +25,7 @@ export const RecognitionContainer = styled.div`
   border-radius: 6px;
   margin: 1em;
   height: 60px;
+  color: #00465f;
 `;
 
 export const TranscriptContainer = styled.div`
@@ -36,14 +37,33 @@ export const TranscriptContainer = styled.div`
   border-left: 1px solid #d0e8f0;
 `;
 
+export const BouncingDot = styled.span`
+  display: inline-block;
+  position: relative;
+  font-weight: bold;
+  margin: 0 0.1em;
+  animation: bounce 1s infinite;
+  animation-delay: ${({ delay }) => (delay ? delay + 's' : 0)};
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-0.06em);
+    }
+  }
+`;
+
 export const MicrophoneOn = styled(MicrophoneOnIcon)`
-  ${iconStyle}
+  ${iconStyles}
 `;
 
 export const MicrophoneOff = styled(MicrophoneOffIcon)`
-  ${iconStyle}
+  ${iconStyles}
 `;
 
 export const RemoveButton = styled(RemoveIcon)`
-  ${iconStyle}
+  ${iconStyles}
 `;

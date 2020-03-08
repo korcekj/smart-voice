@@ -144,6 +144,14 @@ const moduleReducer = (state = INITIAL_STATE, action) => {
           type: action.type
         }
       };
+    case moduleActionTypes.CLEAR_ERROR:
+      return {
+        ...state,
+        error: {
+          message: null,
+          type: null
+        }
+      };
     default:
       return state;
   }

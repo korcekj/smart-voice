@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { moduleActionTypes } from '../../redux/module/module.types';
+import { hardwareSlovakTypes } from '../../hardware/hardware.types';
 
 import Spinner from '../../components/spinner/spinner.component';
 import RecognitionInput from '../../components/recognition-input/recognition-input.component';
@@ -8,11 +9,13 @@ import HardwareForm from '../../components/hardware-form/hardware-form.component
 
 import {
   HardwareOverlay,
+  HardwareContainer,
   HardwareUndefinedContainer,
   HardwareUndefinedText,
   HardwareUndefinedTextId,
   HardwareHeaderContainer,
   HardwareTitle,
+  HardwareSubtitle,
   BackIcon,
   DeleteIcon
 } from './hardware.styles';
@@ -22,40 +25,52 @@ const HardwarePage = ({
   removeHardware,
   updateHardware,
   isFetching,
+  setMessage,
+  clearError,
   error,
   match,
   history
 }) => {
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
   const { moduleId, hardwareType, hardwareId } = match.params;
 
   useEffect(() => {
     if (error.type === moduleActionTypes.UPDATE_HARDWARE_FAILURE) {
-      setErrorMessage('Hardware sa nepodarilo aktualizovať');
+      setIsError(true);
+      setMessage({
+        message: 'Hardware sa nepodarilo aktualizovať',
+        type: 'error'
+      });
+      clearError();
     }
-  }, [error]);
+  }, [error, setMessage, clearError]);
 
   const onRemoveHardware = () => {
-    setErrorMessage(null);
+    setIsError(false);
     removeHardware(hardwareId, hardwareType, moduleId);
     history.goBack();
   };
 
   const onUpdateHardware = data => {
-    setErrorMessage(null);
+    setIsError(false);
     updateHardware(hardwareId, data, hardwareType, moduleId);
   };
 
   return (
     <HardwareOverlay>
       {hardware ? (
-        <div>
+        <HardwareContainer>
           {isFetching && <Spinner float={true} />}
           <HardwareHeaderContainer>
             <div>
               <BackIcon onClick={() => history.goBack()} />
-              <HardwareTitle>{hardware.name}</HardwareTitle>
-            </div>{' '}
+              <HardwareTitle>
+                {hardware.name}
+                <HardwareSubtitle>
+                  {`(:${hardwareSlovakTypes[hardwareType]})`}
+                </HardwareSubtitle>
+              </HardwareTitle>
+            </div>
             <DeleteIcon onClick={onRemoveHardware} />
           </HardwareHeaderContainer>
           <RecognitionInput />
@@ -63,9 +78,9 @@ const HardwarePage = ({
             type={hardwareType}
             hardware={hardware}
             updateHardware={onUpdateHardware}
-            isError={!!errorMessage}
+            isError={isError}
           />
-        </div>
+        </HardwareContainer>
       ) : (
         <HardwareUndefinedContainer>
           <HardwareUndefinedText>

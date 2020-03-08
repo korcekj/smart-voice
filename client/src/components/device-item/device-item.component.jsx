@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import { moduleActionTypes } from '../../redux/module/module.types';
 import { selectError, selectModule } from '../../redux/module/module.selectors';
-import { addModuleStart } from '../../redux/module/module.actions';
+import { addModuleStart, clearError } from '../../redux/module/module.actions';
+import { setMessage } from '../../redux/flash-message/flash-message.actions';
 
 import {
   DeviceItemContainer,
@@ -11,8 +12,7 @@ import {
   ItemSubtitleContainer,
   ItemSubtitle,
   DeviceIcon,
-  SpinnerIcon,
-  ErrorMessage
+  SpinnerIcon
 } from './device-item.styles';
 
 const DeviceItem = ({
@@ -21,11 +21,11 @@ const DeviceItem = ({
   error,
   moduleExists,
   addModuleStart,
-  removeDevice
+  removeDevice,
+  setMessage,
+  clearError
 }) => {
-  const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [triggered, setTriggered] = useState(false);
 
   useEffect(() => {
     if (moduleExists) {
@@ -33,23 +33,23 @@ const DeviceItem = ({
       removeDevice(mac);
     }
 
-    if (error.type === moduleActionTypes.ADD_MODULE_FAILURE && triggered) {
-      setTriggered(false);
+    if (error.type === moduleActionTypes.ADD_MODULE_FAILURE) {
       setIsLoading(false);
-      setErrorMessage('Zariadenie sa nepodarilo pridať');
+      setMessage({
+        message: 'Zariadenie sa nepodarilo pridať',
+        type: 'error'
+      });
+      clearError();
     }
-  }, [mac, error, triggered, moduleExists, removeDevice]);
+  }, [mac, error, moduleExists, removeDevice, setMessage, clearError]);
 
   const onAddDevice = () => {
-    setTriggered(true);
     setIsLoading(true);
-    setErrorMessage(null);
     addModuleStart(mac);
   };
 
   return (
     <DeviceItemContainer onClick={onAddDevice}>
-      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <ItemTitle>{mac}</ItemTitle>
       <ItemSubtitleContainer>
         <DeviceIcon />
@@ -66,7 +66,9 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addModuleStart: mac => dispatch(addModuleStart(mac))
+  addModuleStart: mac => dispatch(addModuleStart(mac)),
+  clearError: () => dispatch(clearError()),
+  setMessage: data => dispatch(setMessage(data))
 });
 
 export default connect(

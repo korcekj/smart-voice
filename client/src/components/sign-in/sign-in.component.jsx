@@ -10,25 +10,32 @@ import { selectError } from '../../redux/user/user.selectors';
 
 import {
   googleSignInStart,
-  emailSignInStart
+  emailSignInStart,
+  clearError
 } from '../../redux/user/user.actions';
+import { setMessage } from '../../redux/flash-message/flash-message.actions';
 
-import {
-  SignInContainer,
-  ButtonsContainer,
-  Title,
-  ErrorText
-} from './sign-in.styles';
+import { SignInContainer, ButtonsContainer, Title } from './sign-in.styles';
 
-const SignIn = ({ googleSignInStart, emailSignInStart, error }) => {
+const SignIn = ({
+  googleSignInStart,
+  emailSignInStart,
+  setMessage,
+  clearError,
+  error
+}) => {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [errorMessage, setErrorMessage] = useState(null);
   const { email, password } = credentials;
 
   useEffect(() => {
-    if (error.type === userActionTypes.SIGN_IN_FAILURE)
-      setErrorMessage('Nepodarilo sa prihlásiť');
-  }, [error]);
+    if (error.type === userActionTypes.SIGN_IN_FAILURE) {
+      setMessage({
+        message: 'Nepodarilo sa prihlásiť',
+        type: 'error'
+      });
+      clearError();
+    }
+  }, [error, setMessage, clearError]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -45,8 +52,6 @@ const SignIn = ({ googleSignInStart, emailSignInStart, error }) => {
   return (
     <SignInContainer>
       <Title>Už mám účet vytvorený</Title>
-      {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-
       <form onSubmit={handleSubmit}>
         <FormInput
           name='email'
@@ -83,7 +88,9 @@ const SignIn = ({ googleSignInStart, emailSignInStart, error }) => {
 const mapDispatchToProps = dispatch => ({
   googleSignInStart: () => dispatch(googleSignInStart()),
   emailSignInStart: (email, password) =>
-    dispatch(emailSignInStart({ email, password }))
+    dispatch(emailSignInStart({ email, password })),
+  clearError: () => dispatch(clearError()),
+  setMessage: data => dispatch(setMessage(data))
 });
 
 const mapStateToProps = createStructuredSelector({

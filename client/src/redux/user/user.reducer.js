@@ -40,6 +40,14 @@ const userReducer = (state = INITIAL_STATE, action) => {
           type: userActionTypes.SIGN_OUT_FAILURE
         }
       };
+    case userActionTypes.CLEAR_ERROR:
+      return {
+        ...state,
+        error: {
+          message: null,
+          type: null
+        }
+      };
     default:
       return state;
   }

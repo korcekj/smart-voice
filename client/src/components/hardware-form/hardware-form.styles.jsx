@@ -6,7 +6,7 @@ export const HardwareFormContainer = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 1em 1em 0 1em;
+  margin: 0 1em;
 
   @media screen and (max-width: 800px) {
     ${CustomButtonContainer} {

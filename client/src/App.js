@@ -9,6 +9,7 @@ import { checkUserSession } from './redux/user/user.actions';
 import { GlobalStyles } from './global.styles';
 
 import Header from './components/header/header.component';
+import FlashMessage from './components/flash-message/flash-message.component';
 import Spinner from './components/spinner/spinner.component';
 import PublicRoute from './components/public-route/public-route.container';
 import PrivateRoute from './components/private-route/private-route.container';
@@ -29,6 +30,7 @@ const App = ({ checkUserSession, currentUser }) => {
   return (
     <div>
       <GlobalStyles />
+      <FlashMessage />
       <Header />
       {currentUser === undefined ? (
         <Spinner />

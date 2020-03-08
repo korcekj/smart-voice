@@ -115,3 +115,7 @@ export const updateHardwareFailure = errorMessage => ({
   type: moduleActionTypes.UPDATE_HARDWARE_FAILURE,
   payload: errorMessage
 });
+
+export const clearError = () => ({
+  type: moduleActionTypes.CLEAR_ERROR
+});

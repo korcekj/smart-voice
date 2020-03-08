@@ -14,3 +14,11 @@ export const SignUpContainer = styled.div`
     }
   }
 `;
+
+export const Title = styled.h2`
+  text-align: center;
+  color: #00465f;
+  padding-bottom: 1em;
+  margin: 0;
+  border-bottom: 2px solid #00465f;
+`;
