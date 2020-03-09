@@ -1,6 +1,29 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
+
+const slideDownStyles = css`
+  animation: slideDown 0.2s forwards;
+
+  @keyframes slideDown {
+    100% {
+      transform: translateY(0%);
+    }
+  }
+`;
+
+const slideUpStyles = css`
+  animation: slideUp 0.2s forwards;
+
+  @keyframes slideUp {
+    0% {
+      transform: translateY(0%);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+`;
 
 const types = {
   error: '#E34040',
@@ -12,13 +35,14 @@ const getColor = ({ type }) => {
   return types[type] || types.info;
 };
 
-const getDisplay = ({ hidden }) => {
-  return hidden ? 'none' : 'flex';
+const getAnimationSlide = ({ hidden, disabled }) => {
+  if (disabled) return;
+  return hidden ? slideUpStyles : slideDownStyles;
 };
 
 export const FlashMessageContainer = styled.div`
+  display: flex;
   position: fixed;
-  display: ${getDisplay};
   align-items: center;
   justify-content: space-between;
   top: 0;
@@ -27,6 +51,9 @@ export const FlashMessageContainer = styled.div`
   padding: 1em 2em;
   background-color: ${getColor};
   z-index: 20;
+  transform: translateY(-100%);
+
+  ${getAnimationSlide}
 `;
 
 export const FlashMessageText = styled.span`

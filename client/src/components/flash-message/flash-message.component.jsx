@@ -54,12 +54,10 @@ const FlashMessage = ({
   }, [hidden, message, showMessage, memoizedSetTimer]);
 
   return (
-    message && (
-      <FlashMessageContainer hidden={hidden} type={type}>
-        <FlashMessageText>{message}</FlashMessageText>
-        <CloseButton onClick={hideMessage} />
-      </FlashMessageContainer>
-    )
+    <FlashMessageContainer disabled={!!!message} hidden={hidden} type={type}>
+      <FlashMessageText>{message}</FlashMessageText>
+      <CloseButton onClick={hideMessage} />
+    </FlashMessageContainer>
   );
 };
 

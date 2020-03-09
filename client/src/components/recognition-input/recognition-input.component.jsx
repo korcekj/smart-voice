@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 
 import SpeechRecognition from 'react-speech-recognition';
+
+import { translate } from '../../dictionary/dictionary.translate';
 
 import {
   RecognitionContainer,
@@ -24,11 +26,21 @@ const RecognitionInput = ({
   stopListening,
   resetTranscript,
   browserSupportsSpeechRecognition,
-  recognition
+  recognition,
+  updateHardware
 }) => {
+  const memoizedUpdateHardware = useCallback(() => {
+    const data = translate(finalTranscript);
+
+    if (data === null) return;
+    updateHardware(data);
+    resetTranscript();
+  }, [finalTranscript, updateHardware, resetTranscript]);
+
   useEffect(() => {
-    recognition.lang = 'sk-SK';
-  }, [recognition.lang]);
+    if (finalTranscript) memoizedUpdateHardware();
+    if (recognition) recognition['lang'] = 'sk-SK';
+  }, [recognition, finalTranscript, memoizedUpdateHardware]);
 
   if (!browserSupportsSpeechRecognition) {
     return null;
@@ -58,4 +70,4 @@ const RecognitionInput = ({
   );
 };
 
-export default SpeechRecognition(options)(RecognitionInput);
+export default SpeechRecognition(options)(React.memo(RecognitionInput));

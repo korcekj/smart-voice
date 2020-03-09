@@ -12,7 +12,7 @@ const flashMessageReducer = (state = INITIAL_STATE, action) => {
     case fleshMessageActionTypes.SHOW_MESSAGE:
       return { ...state, hidden: false };
     case fleshMessageActionTypes.HIDE_MESSAGE:
-      return { ...state, hidden: true, message: null };
+      return { ...state, hidden: true };
     case fleshMessageActionTypes.SET_MESSAGE:
       return { ...state, hidden: false, ...action.payload };
     default:

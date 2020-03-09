@@ -35,7 +35,7 @@ export const isFormValid = inputs =>
   Object.entries(inputs)
     .filter(([key, value]) => {
       if (typeof value === 'object') return false;
-      else if (!value.toString().trim().length) return true;
+      else if (value.toString().trim().length === 0) return true;
       return !isInputValid(key, value);
     })
     .map(value => value[0]);

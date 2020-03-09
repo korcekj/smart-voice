@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { moduleActionTypes } from '../../redux/module/module.types';
 import { hardwareSlovakTypes } from '../../hardware/hardware.types';
@@ -31,12 +31,11 @@ const HardwarePage = ({
   match,
   history
 }) => {
-  const [isError, setIsError] = useState(false);
   const { moduleId, hardwareType, hardwareId } = match.params;
+  const refresh = !!Object.keys(error).length;
 
   useEffect(() => {
     if (error.type === moduleActionTypes.UPDATE_HARDWARE_FAILURE) {
-      setIsError(true);
       setMessage({
         message: 'Hardware sa nepodarilo aktualizovať',
         type: 'error'
@@ -46,14 +45,17 @@ const HardwarePage = ({
   }, [error, setMessage, clearError]);
 
   const onRemoveHardware = () => {
-    setIsError(false);
     removeHardware(hardwareId, hardwareType, moduleId);
     history.goBack();
   };
 
   const onUpdateHardware = data => {
-    setIsError(false);
-    updateHardware(hardwareId, data, hardwareType, moduleId);
+    updateHardware(
+      hardwareId,
+      { ...hardware, ...data },
+      hardwareType,
+      moduleId
+    );
   };
 
   return (
@@ -73,12 +75,12 @@ const HardwarePage = ({
             </div>
             <DeleteIcon onClick={onRemoveHardware} />
           </HardwareHeaderContainer>
-          <RecognitionInput />
+          <RecognitionInput updateHardware={onUpdateHardware} />
           <HardwareForm
             type={hardwareType}
             hardware={hardware}
             updateHardware={onUpdateHardware}
-            isError={isError}
+            refresh={refresh}
           />
         </HardwareContainer>
       ) : (
