@@ -1,4 +1,4 @@
-import DICTIONARY from './dictionary.data';
+import DICTIONARY, { COLORS } from './dictionary.data';
 
 export const translate = transcript => {
   // PARSING AND TOKENIZING
@@ -27,6 +27,9 @@ export const tokenizeStringArray = stringArray => {
     if (!isNaN(value)) {
       valueArray.push(Number(value));
       return ':number';
+    } else if (COLORS[value]) {
+      valueArray.push(COLORS[value]);
+      return ':color';
     }
     return value;
   });
