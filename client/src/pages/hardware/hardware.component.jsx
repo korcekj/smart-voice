@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
+import _ from 'lodash';
 
 import { moduleActionTypes } from '../../redux/module/module.types';
 import { hardwareSlovakTypes } from '../../hardware/hardware.types';
+import { validateOperations } from '../../hardware/hardware.utils';
 
 import Spinner from '../../components/spinner/spinner.component';
 import RecognitionInput from '../../components/recognition-input/recognition-input.component';
@@ -50,12 +52,20 @@ const HardwarePage = ({
   };
 
   const onUpdateHardware = data => {
-    updateHardware(
-      hardwareId,
-      { ...hardware, ...data },
+    const newData = validateOperations(
       hardwareType,
-      moduleId
+      data.mode || hardware.mode,
+      data
     );
+
+    if (!_.isEmpty(newData)) {
+      updateHardware(
+        hardwareId,
+        _.merge({}, hardware, newData),
+        hardwareType,
+        moduleId
+      );
+    }
   };
 
   return (
@@ -69,7 +79,7 @@ const HardwarePage = ({
               <HardwareTitle>
                 {hardware.name}
                 <HardwareSubtitle>
-                  {`(:${hardwareSlovakTypes[hardwareType]})`}
+                  &bull; {` ${hardwareSlovakTypes[hardwareType]}`}
                 </HardwareSubtitle>
               </HardwareTitle>
             </div>

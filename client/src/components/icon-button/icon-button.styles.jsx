@@ -4,8 +4,8 @@ const floatStyles = css`
   position: fixed;
   bottom: 4em;
   right: 4em;
-  width: 50px;
-  height: 50px;
+  width: 5em;
+  height: 5em;
   border-radius: 50%;
   background-color: white;
   box-shadow: 1px 2px 5px #d0e8f0;

@@ -28,15 +28,16 @@ const defaultColors = {
   }
 };
 
-const setNumber = (args = [], propName) => {
-  if (!isInputValid(propName, args[0])) return null;
+const setNumber = (args = [], propName, off = 0) => {
+  const number = args[0] + off;
+  if (!isInputValid(propName, number)) return null;
   return {
-    [propName]: args[0]
+    [propName]: number
   };
 };
 
-const setColor = (args = [], propName) => {
-  const colorIndex = args[0] - 1;
+const setColor = (args = [], propName, off = 0) => {
+  const colorIndex = args[0] + off;
   if (!isInputValid(propName, colorIndex)) return null;
   return {
     colors: {
@@ -49,10 +50,10 @@ const DICTIONARY = {
   zapni: () => setNumber([1], 'status'),
   vypni: () => setNumber([0], 'status'),
   'mod :number': args => setNumber(args, 'mode'),
-  'nastav mod cislo :number': args => setNumber(args, 'mode'),
-  'nastav mod na cislo :number': args => setNumber(args, 'mode'),
-  'nastavit mod cislo :number': args => setNumber(args, 'mode'),
-  'nastavit mod na cislo :number': args => setNumber(args, 'mode'),
+  'nastav mod cislo :number': args => setNumber(args, 'mode', -1),
+  'nastav mod na cislo :number': args => setNumber(args, 'mode', -1),
+  'nastavit mod cislo :number': args => setNumber(args, 'mode', -1),
+  'nastavit mod na cislo :number': args => setNumber(args, 'mode', -1),
   'nastav jas cislo :number': args => setNumber(args, 'brightness'),
   'nastav jas na cislo :number': args => setNumber(args, 'brightness'),
   'nastavit jas cislo :number': args => setNumber(args, 'brightness'),
@@ -61,10 +62,10 @@ const DICTIONARY = {
   'nastav pauzu na cislo :number': args => setNumber(args, 'wait'),
   'nastavit pauzu cislo :number': args => setNumber(args, 'wait'),
   'nastavit pauzu na cislo :number': args => setNumber(args, 'wait'),
-  'nastav farbu cislo :number :color': args => setColor(args, 'color'),
-  'nastav farbu cislo :number na :color': args => setColor(args, 'color'),
-  'nastavit farbu cislo :number :color': args => setColor(args, 'color'),
-  'nastavit farbu cislo :number na :color': args => setColor(args, 'color')
+  'nastav farbu cislo :number :color': args => setColor(args, 'color', -1),
+  'nastav farbu cislo :number na :color': args => setColor(args, 'color', -1),
+  'nastavit farbu cislo :number :color': args => setColor(args, 'color', -1),
+  'nastavit farbu cislo :number na :color': args => setColor(args, 'color', -1)
 };
 
 export const COLORS = {

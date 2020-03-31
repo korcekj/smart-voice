@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 import {
   hardwareTypes,
@@ -39,6 +40,15 @@ export const isFormValid = inputs =>
       return !isInputValid(key, value);
     })
     .map(value => value[0]);
+
+export const validateOperations = (type, mode, data) => {
+  const template = getInputsForUpdate(type);
+  return _.pickBy(data, (value, key) => {
+    if (template[key] && !template[key].props.disabled.includes(Number(mode)))
+      return true;
+    return false;
+  });
+};
 
 export const addHardware = (userId, moduleId, hardware, type, ip) =>
   axios({
