@@ -1,14 +1,10 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-import {
-  hardwareTypes,
-  testInputs,
-  ledCreateInputs,
-  remoteCreateInputs,
-  ledUpdateInputs,
-  remoteUpdateInputs,
-} from './hardware.types';
+import { hardwareTypes } from './hardware.types';
+import { testInputs } from './hardware.inputs';
+import { ledCreateInputs, ledUpdateInputs } from './led/led.types';
+import { remoteCreateInputs, remoteUpdateInputs } from './remote/remote.types';
 
 export const getInputsForCreate = (type) => {
   switch (type) {

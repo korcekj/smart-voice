@@ -12,7 +12,7 @@ import { ReactComponent as ChannelDownIcon } from '../../assets/icons/channel-do
 import {
   inputTypes,
   hardwareSlovakInputs,
-} from '../../hardware/hardware.types';
+} from '../../hardware/hardware.inputs';
 
 import {
   Container,

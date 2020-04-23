@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
+import _ from 'lodash';
 
 import {
   hardwareTypes,
   hardwareSlovakTypes,
+} from '../../hardware/hardware.types';
+import {
   hardwareSlovakInputs,
   inputTypes,
-  capitalize,
-} from '../../hardware/hardware.types';
+} from '../../hardware/hardware.inputs';
 import {
   getInputsForCreate,
   getTemplateForCreate,
@@ -79,7 +81,7 @@ const HardwareModal = ({
         <ModalSelectInput onChange={handleSelectChange} value={type}>
           {Object.entries(hardwareTypes).map(([key, value]) => (
             <option key={key} value={value}>
-              {capitalize(hardwareSlovakTypes[value])}
+              {_.capitalize(hardwareSlovakTypes[value])}
             </option>
           ))}
         </ModalSelectInput>
@@ -91,7 +93,7 @@ const HardwareModal = ({
                 key={key}
                 value={inputs[key]}
                 name={key}
-                placeholder={capitalize(hardwareSlovakInputs[key])}
+                placeholder={_.capitalize(hardwareSlovakInputs[key])}
                 error={errors.includes(key)}
                 onChange={handleInputChange}
               />
@@ -104,7 +106,7 @@ const HardwareModal = ({
               >
                 {props.options.map((value, i) => (
                   <option key={i} value={i.toString()}>
-                    {capitalize(value)}
+                    {_.capitalize(value)}
                   </option>
                 ))}
               </ModalSelectInput>
