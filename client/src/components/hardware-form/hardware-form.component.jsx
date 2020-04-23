@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-import { getInputsForUpdate, isFormValid } from '../../hardware/hardware.utils';
+import {
+  getTemplateForUpdate,
+  isFormValid,
+} from '../../hardware/hardware.utils';
 
 import HardwareInput from '../hardware-input/hardware-input.component';
 import CustomButton from '../custom-button/custom-button.component';
@@ -14,18 +17,18 @@ const HardwareForm = ({ hardware, type, updateHardware, refresh }) => {
   useEffect(() => {
     if (refresh) setInputs(hardware);
     else {
-      setTemplate(getInputsForUpdate(type));
+      setTemplate(getTemplateForUpdate(type));
       setInputs(hardware);
     }
   }, [type, hardware, refresh]);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (isFormValid(inputs)) onUpdateHardware(inputs);
   };
 
-  const onUpdateHardware = hardware => {
+  const onUpdateHardware = (hardware) => {
     updateHardware(hardware);
   };
 
@@ -41,18 +44,23 @@ const HardwareForm = ({ hardware, type, updateHardware, refresh }) => {
   return (
     <HardwareFormContainer onSubmit={handleSubmit}>
       {Object.keys(template).length &&
-        Object.entries(template).map(([key, { props, title }]) => (
-          <HardwareInput
-            key={key}
-            {...props}
-            withTitle={title}
-            mode={inputs.mode || 0}
-            name={key}
-            value={inputs[key]}
-            handleChange={handleInputChange}
-          />
-        ))}
-      <CustomButton type='submit'>Nastaviť</CustomButton>
+        Object.entries(template).map(
+          ([key, { props, title, display }], index) =>
+            display && (
+              <HardwareInput
+                key={key}
+                {...props}
+                withTitle={title}
+                mode={inputs.mode || 0}
+                name={key}
+                value={inputs[key] === undefined ? index : inputs[key]}
+                handleChange={handleInputChange}
+              />
+            )
+        )}
+      <CustomButton margin={'0.75em 0 0 0'} type='submit'>
+        Nastaviť
+      </CustomButton>
     </HardwareFormContainer>
   );
 };

@@ -1,38 +1,39 @@
+import { hardwareTypes } from '../hardware/hardware.types';
 import { isInputValid } from '../hardware/hardware.utils';
 
 const defaultColors = {
   red: {
     r: 255,
     g: 0,
-    b: 0
+    b: 0,
   },
   blue: {
     r: 0,
     g: 0,
-    b: 255
+    b: 255,
   },
   green: {
     r: 0,
     g: 255,
-    b: 0
+    b: 0,
   },
   white: {
     r: 255,
     g: 255,
-    b: 255
+    b: 255,
   },
   black: {
     r: 0,
     g: 0,
-    b: 0
-  }
+    b: 0,
+  },
 };
 
 const setNumber = (args = [], propName, off = 0) => {
   const number = args[0] + off;
   if (!isInputValid(propName, number)) return null;
   return {
-    [propName]: number
+    [propName]: number,
   };
 };
 
@@ -41,31 +42,52 @@ const setColor = (args = [], propName, off = 0) => {
   if (!isInputValid(propName, colorIndex)) return null;
   return {
     colors: {
-      [`${propName}${colorIndex}`]: args[1]
-    }
+      [`${propName}${colorIndex}`]: args[1],
+    },
   };
 };
 
 const DICTIONARY = {
-  zapni: () => setNumber([1], 'status'),
-  vypni: () => setNumber([0], 'status'),
-  'mod :number': args => setNumber(args, 'mode'),
-  'nastav mod cislo :number': args => setNumber(args, 'mode', -1),
-  'nastav mod na cislo :number': args => setNumber(args, 'mode', -1),
-  'nastavit mod cislo :number': args => setNumber(args, 'mode', -1),
-  'nastavit mod na cislo :number': args => setNumber(args, 'mode', -1),
-  'nastav jas cislo :number': args => setNumber(args, 'brightness'),
-  'nastav jas na cislo :number': args => setNumber(args, 'brightness'),
-  'nastavit jas cislo :number': args => setNumber(args, 'brightness'),
-  'nastavit jas na cislo :number': args => setNumber(args, 'brightness'),
-  'nastav pauzu cislo :number': args => setNumber(args, 'wait'),
-  'nastav pauzu na cislo :number': args => setNumber(args, 'wait'),
-  'nastavit pauzu cislo :number': args => setNumber(args, 'wait'),
-  'nastavit pauzu na cislo :number': args => setNumber(args, 'wait'),
-  'nastav farbu cislo :number :color': args => setColor(args, 'color', -1),
-  'nastav farbu cislo :number na :color': args => setColor(args, 'color', -1),
-  'nastavit farbu cislo :number :color': args => setColor(args, 'color', -1),
-  'nastavit farbu cislo :number na :color': args => setColor(args, 'color', -1)
+  [hardwareTypes.led]: {
+    zapni: () => setNumber([1], 'status'),
+    vypni: () => setNumber([0], 'status'),
+    'mod :number': (args) => setNumber(args, 'mode'),
+    'nastav mod cislo :number': (args) => setNumber(args, 'mode', -1),
+    'nastav mod na cislo :number': (args) => setNumber(args, 'mode', -1),
+    'nastavit mod cislo :number': (args) => setNumber(args, 'mode', -1),
+    'nastavit mod na cislo :number': (args) => setNumber(args, 'mode', -1),
+    'nastav jas cislo :number': (args) => setNumber(args, 'brightness'),
+    'nastav jas na cislo :number': (args) => setNumber(args, 'brightness'),
+    'nastavit jas cislo :number': (args) => setNumber(args, 'brightness'),
+    'nastavit jas na cislo :number': (args) => setNumber(args, 'brightness'),
+    'nastav pauzu cislo :number': (args) => setNumber(args, 'wait'),
+    'nastav pauzu na cislo :number': (args) => setNumber(args, 'wait'),
+    'nastavit pauzu cislo :number': (args) => setNumber(args, 'wait'),
+    'nastavit pauzu na cislo :number': (args) => setNumber(args, 'wait'),
+    'nastav farbu cislo :number :color': (args) => setColor(args, 'color', -1),
+    'nastav farbu cislo :number na :color': (args) =>
+      setColor(args, 'color', -1),
+    'nastavit farbu cislo :number :color': (args) =>
+      setColor(args, 'color', -1),
+    'nastavit farbu cislo :number na :color': (args) =>
+      setColor(args, 'color', -1),
+  },
+  [hardwareTypes.remote]: {
+    zapni: () => setNumber([0], 'command'),
+    vypni: () => setNumber([0], 'command'),
+    'pridat hlasitost': () => setNumber([1], 'command'),
+    'zvysit hlasitost': () => setNumber([1], 'command'),
+    'pridat zvuk': () => setNumber([1], 'command'),
+    'zvysit zvuk': () => setNumber([1], 'command'),
+    'odobrat hlasitost': () => setNumber([2], 'command'),
+    'znizit hlasitost': () => setNumber([2], 'command'),
+    'odobrat zvuk': () => setNumber([2], 'command'),
+    'znizit zvuk': () => setNumber([2], 'command'),
+    'nasledujuci kanal': () => setNumber([3], 'command'),
+    'dalsi kanal': () => setNumber([3], 'command'),
+    'predchadzajuci kanal': () => setNumber([4], 'command'),
+    'predosly kanal': () => setNumber([4], 'command'),
+  },
 };
 
 export const COLORS = {
@@ -83,7 +105,7 @@ export const COLORS = {
   bielo: defaultColors.white,
   cierna: defaultColors.black,
   ciernu: defaultColors.black,
-  cierno: defaultColors.black
+  cierno: defaultColors.black,
 };
 
 export default DICTIONARY;

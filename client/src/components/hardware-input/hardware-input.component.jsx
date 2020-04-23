@@ -1,16 +1,24 @@
 import React from 'react';
 
 import ColorButton from '../color-button/color-button.component';
+import IconButton from '../icon-button/icon-button.component';
+
+import { ReactComponent as PowerIcon } from '../../assets/icons/power.svg';
+import { ReactComponent as VolumeUpIcon } from '../../assets/icons/volume-up.svg';
+import { ReactComponent as VolumeDownIcon } from '../../assets/icons/volume-down.svg';
+import { ReactComponent as ChannelUpIcon } from '../../assets/icons/channel-up.svg';
+import { ReactComponent as ChannelDownIcon } from '../../assets/icons/channel-down.svg';
 
 import {
   inputTypes,
-  hardwareSlovakInputs
+  hardwareSlovakInputs,
 } from '../../hardware/hardware.types';
 
 import {
   Container,
   InputContainer,
   InputTitle,
+  InputDesc,
   InputRange,
   InputRangeLabel,
   InputSwitchContainer,
@@ -20,8 +28,16 @@ import {
   InputRadioContainer,
   InputRadioLabel,
   InputRadio,
-  RadioCheckmark
+  RadioCheckmark,
 } from './hardware-input.styles';
+
+const buttonIcons = {
+  power: <PowerIcon />,
+  volumeUp: <VolumeUpIcon />,
+  volumeDown: <VolumeDownIcon />,
+  channelUp: <ChannelUpIcon />,
+  channelDown: <ChannelDownIcon />,
+};
 
 const HardwareInput = ({
   type,
@@ -45,9 +61,9 @@ const HardwareInput = ({
           <ColorButton
             key={id}
             color={color}
-            onChange={rgb =>
+            onChange={(rgb) =>
               handleChange({
-                target: { name, value: { ...value, [id]: rgb } }
+                target: { name, value: { ...value, [id]: rgb } },
               })
             }
           />
@@ -57,9 +73,9 @@ const HardwareInput = ({
         elements.push(
           <ColorButton
             key={id}
-            onChange={rgb =>
+            onChange={(rgb) =>
               handleChange({
-                target: { name, value: { ...value, [id]: rgb } }
+                target: { name, value: { ...value, [id]: rgb } },
               })
             }
           />
@@ -75,7 +91,7 @@ const HardwareInput = ({
 
     for (let i = 0; i < props.number; i++) {
       elements.push(
-        <Container key={i}>
+        <Container flex justify='center' key={i}>
           <InputRadioContainer>
             <InputRadio
               {...props}
@@ -85,8 +101,9 @@ const HardwareInput = ({
             />
             <RadioCheckmark />
           </InputRadioContainer>
-          <InputRadioLabel bold={Number(value) === i}>{`${i +
-            1}.`}</InputRadioLabel>
+          <InputRadioLabel bold={Number(value) === i}>{`${
+            i + 1
+          }.`}</InputRadioLabel>
         </Container>
       );
     }
@@ -98,14 +115,16 @@ const HardwareInput = ({
     switch (type) {
       case inputTypes.range:
         return (
-          <React.Fragment>
-            <InputRange {...props} onChange={handleChange} />
-            <InputRangeLabel>{value}</InputRangeLabel>
-          </React.Fragment>
+          <Container space>
+            <React.Fragment>
+              <InputRange {...props} onChange={handleChange} />
+              <InputRangeLabel>{value}</InputRangeLabel>
+            </React.Fragment>
+          </Container>
         );
       case inputTypes.checkbox:
         return (
-          <Container>
+          <Container flex space>
             <InputSwitchLabel bold={!value}>OFF</InputSwitchLabel>
             <InputSwitchContainer>
               <InputSwitch
@@ -121,9 +140,37 @@ const HardwareInput = ({
           </Container>
         );
       case inputTypes.radio:
-        return <Container space='between'>{renderRadioButtons()}</Container>;
+        return (
+          <Container flex justify='space-between' space>
+            {renderRadioButtons()}
+          </Container>
+        );
       case inputTypes.color:
-        return <Container space='evenly'>{renderColorButtons()}</Container>;
+        return (
+          <Container flex justify='space-evenly' space>
+            {renderColorButtons()}
+          </Container>
+        );
+      case inputTypes.button:
+        return (
+          <Container flex justify='space-between' space border>
+            <IconButton
+              type={type}
+              onClick={() =>
+                handleChange(
+                  { target: { name: props.altName || name, value } },
+                  true
+                )
+              }
+              light
+              rounded
+              big
+            >
+              {buttonIcons[props.icon]}
+            </IconButton>
+            {props.desc && <InputDesc>{props.desc}</InputDesc>}
+          </Container>
+        );
       default:
         return;
     }

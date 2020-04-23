@@ -28,10 +28,7 @@ app.get('/api/local-devices', async (req, res) => {
     res.status(200).send(
       devices.map(({ mac, ip }) => ({
         ip,
-        mac: mac
-          .split(':')
-          .join('-')
-          .toUpperCase()
+        mac: mac.split(':').join('-').toUpperCase(),
       }))
     );
   } catch (error) {
@@ -44,7 +41,7 @@ app.post('/api/module', async (req, res) => {
   try {
     const { ip } = req.body;
     const response = await fetch(`http://${ip}`, {
-      timeout: 5000
+      timeout: 5000,
     });
     const json = await response.json();
     res.status(json.status).send(json);
@@ -53,13 +50,13 @@ app.post('/api/module', async (req, res) => {
       status: 404,
       description: {
         rate: 'error',
-        message
-      }
+        message,
+      },
     });
   }
 });
 
-// Create hardware type
+// Create hardware by type
 app.post('/api/hardware/:type', async (req, res) => {
   try {
     const { userId, moduleId, hardware, ip } = req.body;
@@ -68,9 +65,9 @@ app.post('/api/hardware/:type', async (req, res) => {
     const response = await fetch(
       `http://${ip}/${type}/create?userId=${userId}&moduleId=${moduleId}`,
       {
-        method: 'post',
+        method: 'POST',
         body: JSON.stringify(hardware),
-        timeout: 5000
+        timeout: 5000,
       }
     );
     const json = await response.json();
@@ -80,39 +77,13 @@ app.post('/api/hardware/:type', async (req, res) => {
       status: 404,
       description: {
         rate: 'error',
-        message
-      }
+        message,
+      },
     });
   }
 });
 
-// Delete hardware type
-app.delete('/api/hardware/:type', async (req, res) => {
-  try {
-    const { userId, moduleId, id, ip } = req.body;
-    const { type } = req.params;
-
-    const response = await fetch(
-      `http://${ip}/${type}/delete?id=${id}&userId=${userId}&moduleId=${moduleId}`,
-      {
-        method: 'post',
-        timeout: 5000
-      }
-    );
-    const json = await response.json();
-    res.status(json.status).send(json);
-  } catch ({ message }) {
-    res.status(404).send({
-      status: 404,
-      description: {
-        rate: 'error',
-        message
-      }
-    });
-  }
-});
-
-// Update hardware type
+// Update hardware by type
 app.put('/api/hardware/:type', async (req, res) => {
   try {
     const { userId, moduleId, hardware, id, ip } = req.body;
@@ -121,9 +92,9 @@ app.put('/api/hardware/:type', async (req, res) => {
     const response = await fetch(
       `http://${ip}/${type}/update?id=${id}&userId=${userId}&moduleId=${moduleId}`,
       {
-        method: 'post',
+        method: 'POST',
         body: JSON.stringify(hardware),
-        timeout: 5000
+        timeout: 5000,
       }
     );
     const json = await response.json();
@@ -133,8 +104,34 @@ app.put('/api/hardware/:type', async (req, res) => {
       status: 404,
       description: {
         rate: 'error',
-        message
+        message,
+      },
+    });
+  }
+});
+
+// Delete hardware by type
+app.delete('/api/hardware/:type', async (req, res) => {
+  try {
+    const { userId, moduleId, id, ip } = req.body;
+    const { type } = req.params;
+
+    const response = await fetch(
+      `http://${ip}/${type}/delete?id=${id}&userId=${userId}&moduleId=${moduleId}`,
+      {
+        method: 'POST',
+        timeout: 5000,
       }
+    );
+    const json = await response.json();
+    res.status(json.status).send(json);
+  } catch ({ message }) {
+    res.status(404).send({
+      status: 404,
+      description: {
+        rate: 'error',
+        message,
+      },
     });
   }
 });
@@ -149,7 +146,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.listen(port, error => {
+app.listen(port, (error) => {
   if (error) throw error;
   console.log('Server running on port ', port);
 });

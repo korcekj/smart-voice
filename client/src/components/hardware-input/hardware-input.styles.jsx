@@ -5,19 +5,35 @@ const disabledStyles = css`
   pointer-events: none;
 `;
 
+const borderStyles = css`
+  border: 2px solid rgba(0, 75, 95, 0.4);
+  border-radius: 6px;
+  padding: 1em;
+`;
+
+const flexStyles = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const spaceStyles = css`
+  padding: 1em;
+`;
+
 export const InputContainer = styled.div`
   width: 100%;
-  padding: 1em;
-  margin-bottom: 1.5em;
-  ${({ border }) => border && 'border: 2px solid rgba(0, 75, 95, 0.4)'};
-  border-radius: 6px;
+  margin: 0.75em 0;
+  ${({ border }) => border && borderStyles};
   ${({ disabled }) => disabled && disabledStyles};
 `;
 
 export const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: ${({ space }) => space && `space-${space}`};
+  width: 100%;
+  ${({ space }) => space && spaceStyles};
+  ${({ flex }) => flex && flexStyles};
+  ${({ border }) => border && borderStyles};
+  justify-content: ${({ justify }) => justify && justify};
 `;
 
 export const InputTitle = styled.h3`
@@ -26,6 +42,18 @@ export const InputTitle = styled.h3`
   margin: 0;
   margin-bottom: 0.5em;
   text-align: center;
+`;
+
+export const InputDesc = styled.span`
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+  color: #00465f;
+  background-color: #d0e8f0;
+  text-transform: capitalize;
+  padding: 0.5em 1em;
+  text-align: center;
+  border-radius: 6px;
 `;
 
 export const InputRangeLabel = styled.div`

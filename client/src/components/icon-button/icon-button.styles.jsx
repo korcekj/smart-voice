@@ -1,15 +1,37 @@
 import styled, { css } from 'styled-components';
 
+const lightStyles = css`
+  background-color: #d0e8f0;
+  color: #00465f;
+`;
+
+const darkStyles = css`
+  background-color: #00465f;
+  color: white;
+`;
+
+const roundedStyles = css`
+  border-radius: 50%;
+`;
+
+const bigStyles = css`
+  width: 5em;
+  height: 5em;
+`;
+
+const mediumStyles = css`
+  width: 2.5em;
+  height: 2.5em;
+`;
+
 const floatStyles = css`
   position: fixed;
   bottom: 4em;
   right: 4em;
-  width: 5em;
-  height: 5em;
-  border-radius: 50%;
-  background-color: white;
+  ${bigStyles};
   box-shadow: 1px 2px 5px #d0e8f0;
-  z-index: 2;
+  ${roundedStyles};
+  z-index: 20;
 
   &:hover {
     box-shadow: 2px 4px 8px #d0e8f0;
@@ -18,14 +40,17 @@ const floatStyles = css`
 
 const floatStyle = ({ float }) => float && floatStyles;
 
+const roundedStyle = ({ rounded }) => rounded && roundedStyles;
+
+const background = ({ light }) => (light ? lightStyles : darkStyles);
+
+const sizeStyles = ({ big }) => (big ? bigStyles : mediumStyles);
+
 export const IconButtonContainer = styled.button`
   cursor: pointer;
-  width: 40px;
-  height: 40px;
   padding: 1em;
   border: none;
   outline: none;
-  background-color: #00465f;
 
   & > * {
     width: 100%;
@@ -37,5 +62,8 @@ export const IconButtonContainer = styled.button`
     transform: scale(1.06);
   }
 
+  ${sizeStyles};
   ${floatStyle};
+  ${roundedStyle};
+  ${background};
 `;

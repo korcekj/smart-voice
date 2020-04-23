@@ -10,12 +10,12 @@ import {
   MicrophoneOn,
   MicrophoneOff,
   RemoveButton,
-  BouncingDot
+  BouncingDot,
 } from './recognition-input.styles';
 
 const options = {
   autoStart: false,
-  continuous: false
+  continuous: false,
 };
 
 const RecognitionInput = ({
@@ -27,15 +27,16 @@ const RecognitionInput = ({
   resetTranscript,
   browserSupportsSpeechRecognition,
   recognition,
-  updateHardware
+  hardwareType,
+  updateHardware,
 }) => {
   const memoizedUpdateHardware = useCallback(() => {
-    const data = translate(finalTranscript);
+    const data = translate(hardwareType, finalTranscript);
 
     if (data === null) return;
     updateHardware(data);
     resetTranscript();
-  }, [finalTranscript, updateHardware, resetTranscript]);
+  }, [finalTranscript, hardwareType, updateHardware, resetTranscript]);
 
   useEffect(() => {
     if (finalTranscript) memoizedUpdateHardware();
@@ -58,7 +59,7 @@ const RecognitionInput = ({
           ? finalTranscript
           : transcript || (
               <React.Fragment>
-                Žačni domácnosť ovládať hlasom
+                Žačni ovládať domácnosť hlasom
                 <BouncingDot>.</BouncingDot>
                 <BouncingDot delay={0.4}>.</BouncingDot>
                 <BouncingDot delay={1.2}>.</BouncingDot>

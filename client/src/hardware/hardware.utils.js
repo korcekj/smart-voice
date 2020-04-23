@@ -6,43 +6,69 @@ import {
   testInputs,
   ledCreateInputs,
   remoteCreateInputs,
-  ledUpdateInputs
+  ledUpdateInputs,
+  remoteUpdateInputs,
 } from './hardware.types';
 
-export const getInputsForCreate = type => {
+export const getInputsForCreate = (type) => {
+  switch (type) {
+    case hardwareTypes.led:
+      return Object.entries(ledCreateInputs).reduce(
+        (reducer, [key, { props }]) => {
+          reducer[key] = props.value;
+          return reducer;
+        },
+        {}
+      );
+    case hardwareTypes.remote:
+      return Object.entries(remoteCreateInputs).reduce(
+        (reducer, [key, { props }]) => {
+          reducer[key] = props.value;
+          return reducer;
+        },
+        {}
+      );
+    default:
+      return {};
+  }
+};
+
+export const getTemplateForCreate = (type) => {
   switch (type) {
     case hardwareTypes.led:
       return ledCreateInputs;
     case hardwareTypes.remote:
       return remoteCreateInputs;
     default:
-      return ledCreateInputs;
+      return {};
   }
 };
 
-export const getInputsForUpdate = type => {
+export const getTemplateForUpdate = (type) => {
   switch (type) {
     case hardwareTypes.led:
       return ledUpdateInputs;
+    case hardwareTypes.remote:
+      return remoteUpdateInputs;
     default:
-      return ledUpdateInputs;
+      return {};
   }
 };
 
 export const isInputValid = (name, value) =>
   testInputs[name] ? testInputs[name].test(value.toString()) : true;
 
-export const isFormValid = inputs =>
+export const isFormValid = (inputs) =>
   Object.entries(inputs)
     .filter(([key, value]) => {
       if (typeof value === 'object') return false;
       else if (value.toString().trim().length === 0) return true;
       return !isInputValid(key, value);
     })
-    .map(value => value[0]);
+    .map((value) => value[0]);
 
 export const validateOperations = (type, mode, data) => {
-  const template = getInputsForUpdate(type);
+  const template = getTemplateForUpdate(type);
   return _.pickBy(data, (value, key) => {
     if (template[key] && !template[key].props.disabled.includes(Number(mode)))
       return true;
@@ -58,8 +84,8 @@ export const addHardware = (userId, moduleId, hardware, type, ip) =>
       userId,
       moduleId,
       hardware,
-      ip
-    }
+      ip,
+    },
   });
 
 export const removeHardware = (userId, moduleId, id, type, ip) =>
@@ -70,8 +96,8 @@ export const removeHardware = (userId, moduleId, id, type, ip) =>
       userId,
       moduleId,
       id,
-      ip
-    }
+      ip,
+    },
   });
 
 export const updateHardware = (userId, moduleId, hardware, id, type, ip) =>
@@ -83,6 +109,6 @@ export const updateHardware = (userId, moduleId, hardware, id, type, ip) =>
       moduleId,
       hardware,
       id,
-      ip
-    }
+      ip,
+    },
   });

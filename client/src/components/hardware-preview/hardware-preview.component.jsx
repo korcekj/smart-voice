@@ -12,7 +12,7 @@ import {
   HardwarePreviewOverlay,
   HardwarePreviewContainer,
   HardwareContainer,
-  HardwareOverlay
+  HardwareOverlay,
 } from './hardware-preview.styles';
 
 const HardwarePreview = ({
@@ -22,11 +22,11 @@ const HardwarePreview = ({
   removeHardware,
   setMessage,
   clearError,
-  match
+  match,
 }) => {
   const [modalStatus, setModalStatus] = useState({
     type: hardwareTypes.led,
-    open: false
+    open: false,
   });
 
   const { moduleId } = match.params;
@@ -35,27 +35,27 @@ const HardwarePreview = ({
     if (error.type === moduleActionTypes.ADD_HARDWARE_FAILURE) {
       setMessage({
         message: 'Hardware sa nepodarilo pridať',
-        type: 'error'
+        type: 'error',
       });
       clearError();
     } else if (error.type === moduleActionTypes.REMOVE_HARDWARE_FAILURE) {
       setMessage({
         message: 'Hardware sa nepodarilo vymazať',
-        type: 'error'
+        type: 'error',
       });
       clearError();
     }
   }, [error, setMessage, clearError]);
 
-  const onAddHardwareStart = type => {
+  const onAddHardwareStart = (type) => {
     setModalStatus({ type, open: true });
   };
 
-  const setIsModalOpen = open => {
+  const setIsModalOpen = (open) => {
     setModalStatus({ ...modalStatus, open });
   };
 
-  const setModalType = type => {
+  const setModalType = (type) => {
     setModalStatus({ ...modalStatus, type });
   };
 
@@ -73,7 +73,7 @@ const HardwarePreview = ({
       <HardwarePreviewContainer>
         <HardwareOverlay>
           <HardwareContainer>
-            {Object.keys(hardwareTypes).map(key => {
+            {Object.keys(hardwareTypes).map((key) => {
               if (hardware && Object.keys(hardware[key] || {}).length) {
                 return Object.entries(hardware[key]).map(([id, { name }]) => (
                   <HardwareItem
@@ -94,7 +94,7 @@ const HardwarePreview = ({
                 />
               );
             })}
-            <IconButton float={true} onClick={() => setIsModalOpen(true)}>
+            <IconButton float light onClick={() => setIsModalOpen(true)}>
               <PlusIcon />
             </IconButton>
           </HardwareContainer>

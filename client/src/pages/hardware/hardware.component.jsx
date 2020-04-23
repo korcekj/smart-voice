@@ -19,7 +19,7 @@ import {
   HardwareTitle,
   HardwareSubtitle,
   BackIcon,
-  DeleteIcon
+  DeleteIcon,
 } from './hardware.styles';
 
 const HardwarePage = ({
@@ -31,7 +31,7 @@ const HardwarePage = ({
   clearError,
   error,
   match,
-  history
+  history,
 }) => {
   const { moduleId, hardwareType, hardwareId } = match.params;
   const refresh = !!Object.keys(error).length;
@@ -40,7 +40,7 @@ const HardwarePage = ({
     if (error.type === moduleActionTypes.UPDATE_HARDWARE_FAILURE) {
       setMessage({
         message: 'Hardware sa nepodarilo aktualizovať',
-        type: 'error'
+        type: 'error',
       });
       clearError();
     }
@@ -51,7 +51,7 @@ const HardwarePage = ({
     history.goBack();
   };
 
-  const onUpdateHardware = data => {
+  const onUpdateHardware = (data) => {
     const newData = validateOperations(
       hardwareType,
       data.mode || hardware.mode,
@@ -85,7 +85,10 @@ const HardwarePage = ({
             </div>
             <DeleteIcon onClick={onRemoveHardware} />
           </HardwareHeaderContainer>
-          <RecognitionInput updateHardware={onUpdateHardware} />
+          <RecognitionInput
+            hardwareType={hardwareType}
+            updateHardware={onUpdateHardware}
+          />
           <HardwareForm
             type={hardwareType}
             hardware={hardware}

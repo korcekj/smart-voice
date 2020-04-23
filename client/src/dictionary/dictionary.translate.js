@@ -1,6 +1,6 @@
 import DICTIONARY, { COLORS } from './dictionary.data';
 
-export const translate = transcript => {
+export const translate = (hardwareType, transcript) => {
   // PARSING AND TOKENIZING
   const normalizedString = normalizeString(transcript);
   const normalizedArray = normalizedString.split(' ');
@@ -8,22 +8,22 @@ export const translate = transcript => {
   const dictionaryKey = tokenizedArray.join(' ');
 
   // ACCESS TO FUNCTION
-  const returnedFun = DICTIONARY[dictionaryKey];
+  const returnedFun = DICTIONARY[hardwareType][dictionaryKey];
   if (!returnedFun) return null;
 
   // RETURN RETURNED OBJECT FROM FUNCTION ABOVE
   return returnedFun(valueArray);
 };
 
-export const normalizeString = string => {
+export const normalizeString = (string) => {
   const lowerCasedString = string.toLowerCase();
   return lowerCasedString.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
 
-export const tokenizeStringArray = stringArray => {
+export const tokenizeStringArray = (stringArray) => {
   const valueArray = [];
 
-  const tokenizedArray = stringArray.map(value => {
+  const tokenizedArray = stringArray.map((value) => {
     if (!isNaN(value)) {
       valueArray.push(Number(value));
       return ':number';
@@ -36,6 +36,6 @@ export const tokenizeStringArray = stringArray => {
 
   return {
     tokenizedArray,
-    valueArray
+    valueArray,
   };
 };

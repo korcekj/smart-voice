@@ -33,7 +33,7 @@ const googleSignInStyles = css`
   }
 `;
 
-const getButtonStyles = props => {
+const getButtonStyles = (props) => {
   if (props.isGoogleSignIn) return googleSignInStyles;
   return props.inverted ? invertedButtonStyles : buttonStyles;
 };
@@ -41,6 +41,7 @@ const getButtonStyles = props => {
 export const CustomButtonContainer = styled.button`
   display: inline-block;
   padding: 1em 2em;
+  margin: ${({ margin }) => (margin ? margin : '')};
   font-size: 14px;
   font-weight: bolder;
   border-radius: 3px;

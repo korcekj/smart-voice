@@ -56,10 +56,10 @@ export const ModalForm = styled.form`
   }
 `;
 
-export const ModalSelect = styled.select`
+export const ModalSelectInput = styled.select`
   ${inputStyle}
 `;
 
-export const ModalInput = styled.input`
+export const ModalTextInput = styled.input`
   ${inputStyle}
 `;

@@ -5,12 +5,14 @@ import {
   hardwareTypes,
   hardwareSlovakTypes,
   hardwareSlovakInputs,
-  capitalize
+  inputTypes,
+  capitalize,
 } from '../../hardware/hardware.types';
 import {
   getInputsForCreate,
+  getTemplateForCreate,
   isInputValid,
-  isFormValid
+  isFormValid,
 } from '../../hardware/hardware.utils';
 
 import CustomButton from '../custom-button/custom-button.component';
@@ -19,9 +21,9 @@ import {
   ModalHeader,
   ModalTitle,
   ModalForm,
-  ModalSelect,
-  ModalInput,
-  CloseButton
+  ModalSelectInput,
+  ModalTextInput,
+  CloseButton,
 } from './hardware-modal.styles';
 
 Modal.setAppElement('#root');
@@ -31,17 +33,19 @@ const HardwareModal = ({
   setIsModalOpen,
   type,
   setType,
-  onSubmit
+  onSubmit,
 }) => {
   const [inputs, setInputs] = useState({});
+  const [template, setTemplate] = useState({});
   const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     setInputs(getInputsForCreate(type));
+    setTemplate(getTemplateForCreate(type));
     setErrors([]);
   }, [type]);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const errorArray = isFormValid(inputs);
@@ -51,17 +55,17 @@ const HardwareModal = ({
     onSubmit(inputs, type);
   };
 
-  const handleSelectChange = e => {
+  const handleSelectChange = (e) => {
     const { value } = e.target;
     setType(hardwareTypes[value]);
   };
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     const { value, name } = e.target;
 
     if (isInputValid(name, value)) {
       setInputs({ ...inputs, [name]: value });
-      setErrors(errors.filter(value => value !== name));
+      setErrors(errors.filter((value) => value !== name));
     } else setErrors([...errors, name]);
   };
 
@@ -72,25 +76,40 @@ const HardwareModal = ({
         <CloseButton onClick={() => setIsModalOpen(false)} />
       </ModalHeader>
       <ModalForm onSubmit={handleSubmit}>
-        <ModalSelect onChange={handleSelectChange} value={type}>
+        <ModalSelectInput onChange={handleSelectChange} value={type}>
           {Object.entries(hardwareTypes).map(([key, value]) => (
             <option key={key} value={value}>
               {capitalize(hardwareSlovakTypes[value])}
             </option>
           ))}
-        </ModalSelect>
-        {Object.keys(inputs).length &&
-          Object.entries(inputs).map(([key, value]) => (
-            <ModalInput
-              type='text'
-              key={key}
-              value={value}
-              name={key}
-              placeholder={capitalize(hardwareSlovakInputs[key])}
-              error={errors.includes(key)}
-              onChange={handleInputChange}
-            />
-          ))}
+        </ModalSelectInput>
+        {Object.keys(template).length &&
+          Object.entries(template).map(([key, { props }]) =>
+            props.type === inputTypes.text ? (
+              <ModalTextInput
+                type={props.type}
+                key={key}
+                value={inputs[key]}
+                name={key}
+                placeholder={capitalize(hardwareSlovakInputs[key])}
+                error={errors.includes(key)}
+                onChange={handleInputChange}
+              />
+            ) : (
+              <ModalSelectInput
+                name={key}
+                key={key}
+                onChange={handleInputChange}
+                value={inputs[key]}
+              >
+                {props.options.map((value, i) => (
+                  <option key={i} value={i.toString()}>
+                    {capitalize(value)}
+                  </option>
+                ))}
+              </ModalSelectInput>
+            )
+          )}
         <CustomButton type='submit'>Pridaj</CustomButton>
       </ModalForm>
     </Modal>
