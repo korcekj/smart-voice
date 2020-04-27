@@ -4,7 +4,7 @@ import {
   UserDropdownList,
   ListItem,
   ListHeading,
-  ItemLink
+  ItemLink,
 } from './user-dropdown.styles';
 
 const UserDropdown = ({ displayName }) => {
@@ -14,7 +14,7 @@ const UserDropdown = ({ displayName }) => {
         <ListHeading>{displayName}</ListHeading>
       </ListItem>
       <ListItem>
-        <ItemLink to='/'>Nastavenia</ItemLink>
+        <ItemLink to='/user/settings'>Nastavenia</ItemLink>
       </ListItem>
     </UserDropdownList>
   );

@@ -12,6 +12,7 @@ import { DashboardOverlay } from './dashboard.styles';
 const ModulesPage = lazy(() => import('../modules/modules.container'));
 const ModulePage = lazy(() => import('../module/module.container'));
 const HardwarePage = lazy(() => import('../hardware/hardware.container'));
+const SettingsPage = lazy(() => import('../settings/settings.component'));
 
 const DashboardPage = ({ match, fetchModulesStart }) => {
   useEffect(() => {
@@ -33,13 +34,18 @@ const DashboardPage = ({ match, fetchModulesStart }) => {
           path={`${match.path}/module/:moduleId/:hardwareType/:hardwareId`}
           component={HardwarePage}
         />
+        <PrivateRoute
+          exact
+          path={`${match.path}/settings`}
+          component={SettingsPage}
+        />
       </Suspense>
     </DashboardOverlay>
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  fetchModulesStart: () => dispatch(fetchModulesStart())
+const mapDispatchToProps = (dispatch) => ({
+  fetchModulesStart: () => dispatch(fetchModulesStart()),
 });
 
 export default connect(null, mapDispatchToProps)(DashboardPage);

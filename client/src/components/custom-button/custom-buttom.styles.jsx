@@ -51,6 +51,7 @@ export const CustomButtonContainer = styled.button`
   overflow: hidden;
   outline: none;
   opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
+  width: ${({ fullwidth }) => (fullwidth ? '100%' : 'auto')};
 
   ${getButtonStyles}
 `;
