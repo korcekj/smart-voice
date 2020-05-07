@@ -92,3 +92,11 @@ export const remoteUpdateInputs = {
     },
   },
 };
+
+export const remoteCommands = {
+  POWER: 0,
+  VOLUME_UP: 1,
+  VOLUME_DOWN: 2,
+  CHANNEL_UP: 3,
+  CHANNEL_DOWN: 4,
+};

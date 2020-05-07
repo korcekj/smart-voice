@@ -1,56 +1,12 @@
 import { hardwareTypes } from '../hardware/hardware.types';
-import { isInputValid } from '../hardware/hardware.utils';
-
-const defaultColors = {
-  red: {
-    r: 255,
-    g: 0,
-    b: 0,
-  },
-  blue: {
-    r: 0,
-    g: 0,
-    b: 255,
-  },
-  green: {
-    r: 0,
-    g: 255,
-    b: 0,
-  },
-  white: {
-    r: 255,
-    g: 255,
-    b: 255,
-  },
-  black: {
-    r: 0,
-    g: 0,
-    b: 0,
-  },
-};
-
-const setNumber = (args = [], propName, off = 0) => {
-  const number = args[0] + off;
-  if (!isInputValid(propName, number)) return null;
-  return {
-    [propName]: number,
-  };
-};
-
-const setColor = (args = [], propName, off = 0) => {
-  const colorIndex = args[0] + off;
-  if (!isInputValid(propName, colorIndex)) return null;
-  return {
-    colors: {
-      [`${propName}${colorIndex}`]: args[1],
-    },
-  };
-};
+import { setNumber, setColor } from '../hardware/hardware.utils';
+import { ledCommands, defaultColors } from '../hardware/led/led.types';
+import { remoteCommands } from '../hardware/remote/remote.types';
 
 const DICTIONARY = {
   [hardwareTypes.led]: {
-    zapni: () => setNumber([1], 'status'),
-    vypni: () => setNumber([0], 'status'),
+    zapnut: () => setNumber([ledCommands.TURN_ON], 'status'),
+    vypnut: () => setNumber([ledCommands.TURN_OFF], 'status'),
     'mod :number': (args) => setNumber(args, 'mode'),
     'nastav mod cislo :number': (args) => setNumber(args, 'mode', -1),
     'nastav mod na cislo :number': (args) => setNumber(args, 'mode', -1),
@@ -73,20 +29,24 @@ const DICTIONARY = {
       setColor(args, 'color', -1),
   },
   [hardwareTypes.remote]: {
-    zapni: () => setNumber([0], 'command'),
-    vypni: () => setNumber([0], 'command'),
-    'pridat hlasitost': () => setNumber([1], 'command'),
-    'zvysit hlasitost': () => setNumber([1], 'command'),
-    'pridat zvuk': () => setNumber([1], 'command'),
-    'zvysit zvuk': () => setNumber([1], 'command'),
-    'odobrat hlasitost': () => setNumber([2], 'command'),
-    'znizit hlasitost': () => setNumber([2], 'command'),
-    'odobrat zvuk': () => setNumber([2], 'command'),
-    'znizit zvuk': () => setNumber([2], 'command'),
-    'nasledujuci kanal': () => setNumber([3], 'command'),
-    'dalsi kanal': () => setNumber([3], 'command'),
-    'predchadzajuci kanal': () => setNumber([4], 'command'),
-    'predosly kanal': () => setNumber([4], 'command'),
+    zapnut: () => setNumber([remoteCommands.POWER], 'command'),
+    vypnut: () => setNumber([remoteCommands.POWER], 'command'),
+    'pridat hlasitost': () => setNumber([remoteCommands.VOLUME_UP], 'command'),
+    'zvysit hlasitost': () => setNumber([remoteCommands.VOLUME_UP], 'command'),
+    'pridat zvuk': () => setNumber([remoteCommands.VOLUME_UP], 'command'),
+    'zvysit zvuk': () => setNumber([remoteCommands.VOLUME_UP], 'command'),
+    'odobrat hlasitost': () =>
+      setNumber([remoteCommands.VOLUME_DOWN], 'command'),
+    'znizit hlasitost': () =>
+      setNumber([remoteCommands.VOLUME_DOWN], 'command'),
+    'odobrat zvuk': () => setNumber([remoteCommands.VOLUME_DOWN], 'command'),
+    'znizit zvuk': () => setNumber([remoteCommands.VOLUME_DOWN], 'command'),
+    'nasledujuci kanal': () =>
+      setNumber([remoteCommands.CHANNEL_UP], 'command'),
+    'dalsi kanal': () => setNumber([remoteCommands.CHANNEL_UP], 'command'),
+    'predchadzajuci kanal': () =>
+      setNumber([remoteCommands.CHANNEL_DOWN], 'command'),
+    'predosly kanal': () => setNumber([remoteCommands.CHANNEL_DOWN], 'command'),
   },
 };
 

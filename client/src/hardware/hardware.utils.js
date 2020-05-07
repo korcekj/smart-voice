@@ -72,6 +72,24 @@ export const validateOperations = (type, mode, data) => {
   });
 };
 
+export const setNumber = (args = [], propName, off = 0) => {
+  const number = args[0] + off;
+  if (!isInputValid(propName, number)) return null;
+  return {
+    [propName]: number,
+  };
+};
+
+export const setColor = (args = [], propName, off = 0) => {
+  const colorIndex = args[0] + off;
+  if (!isInputValid(propName, colorIndex)) return null;
+  return {
+    colors: {
+      [`${propName}${colorIndex}`]: args[1],
+    },
+  };
+};
+
 export const addHardware = (userId, moduleId, hardware, type, ip) =>
   axios({
     url: `/api/hardware/${type}`,
