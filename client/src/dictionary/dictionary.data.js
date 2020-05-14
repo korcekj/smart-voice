@@ -1,8 +1,10 @@
+// Importovanie vstupov a konfiguracii hardverovych sucasti
 import { hardwareTypes } from '../hardware/hardware.types';
 import { setNumber, setColor } from '../hardware/hardware.utils';
 import { ledCommands, defaultColors } from '../hardware/led/led.types';
 import { remoteCommands } from '../hardware/remote/remote.types';
 
+// Slovnik prikazov ako JS object
 const DICTIONARY = {
   [hardwareTypes.led]: {
     zapnut: () => setNumber([ledCommands.TURN_ON], 'status'),
@@ -50,6 +52,7 @@ const DICTIONARY = {
   },
 };
 
+// Slovnik farieb ako JS objekt
 export const COLORS = {
   cervena: defaultColors.red,
   cervenu: defaultColors.red,

@@ -1,3 +1,4 @@
+// Objekt nazvov vstupov hardverovych sucasti v slovenskom jazyku
 export const hardwareSlovakInputs = {
   name: 'názov',
   numLeds: 'počet led',
@@ -11,6 +12,7 @@ export const hardwareSlovakInputs = {
   type: 'typ',
 };
 
+// Objekt dostupnych vstupov pre nase pouzivatelske rozhranie
 export const inputTypes = {
   text: 'text',
   range: 'range',
@@ -21,6 +23,7 @@ export const inputTypes = {
   button: 'button',
 };
 
+// Objekt regex testov pre validaciu jednotlivych vstupov
 export const testInputs = {
   name: /^([\w\W\d]{0,16})?$/m,
   numLeds: /^([1-9](\d){0,2})?$/m,

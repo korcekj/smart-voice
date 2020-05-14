@@ -1,5 +1,6 @@
 import { inputTypes } from '../hardware.inputs';
 
+// Objekt vstupov sluziacich pre vytvorenie dialkoveho ovladaca
 export const remoteCreateInputs = {
   name: {
     props: {
@@ -28,6 +29,7 @@ export const remoteCreateInputs = {
   },
 };
 
+// Objekt vstupov sluziacich pre aktualizaciu dialkoveho ovladaca
 export const remoteUpdateInputs = {
   power: {
     title: false,
@@ -93,6 +95,7 @@ export const remoteUpdateInputs = {
   },
 };
 
+// Objekt dostupnych statickych prikazov pre dialkovy ovladac
 export const remoteCommands = {
   POWER: 0,
   VOLUME_UP: 1,

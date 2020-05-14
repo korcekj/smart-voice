@@ -1,5 +1,6 @@
 import { inputTypes } from '../hardware.inputs';
 
+// Objekt vstupov sluziacich pre vytvorenie LED
 export const ledCreateInputs = {
   name: {
     props: {
@@ -21,6 +22,7 @@ export const ledCreateInputs = {
   },
 };
 
+// Objekt vstupov sluziacich pre aktualizaciu LED
 export const ledUpdateInputs = {
   status: {
     title: false,
@@ -72,6 +74,7 @@ export const ledUpdateInputs = {
   },
 };
 
+// Objekt dostupnych RGB farieb pri rozpoznavani reci na text
 export const defaultColors = {
   red: {
     r: 255,
@@ -100,6 +103,7 @@ export const defaultColors = {
   },
 };
 
+// Objekt dostupnych statickych prikazov pre LED
 export const ledCommands = {
   TURN_OFF: 0,
   TURN_ON: 1,

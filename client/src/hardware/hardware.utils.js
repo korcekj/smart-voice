@@ -1,11 +1,14 @@
+// Importovanie potrebnych packages
 import axios from 'axios';
 import _ from 'lodash';
 
+// Importovanie vstupov a konfiguracii hardverovych sucasti
 import { hardwareTypes } from './hardware.types';
 import { testInputs } from './hardware.inputs';
 import { ledCreateInputs, ledUpdateInputs } from './led/led.types';
 import { remoteCreateInputs, remoteUpdateInputs } from './remote/remote.types';
 
+// Funkcia na ziskanie vstupov pre formular na vytvorenie hardverovej sucasti
 export const getInputsForCreate = (type) => {
   switch (type) {
     case hardwareTypes.led:
@@ -29,6 +32,7 @@ export const getInputsForCreate = (type) => {
   }
 };
 
+// Funkcia na ziskanie predlohy vstupov pre formular na vytvorenie hardverovej sucasti
 export const getTemplateForCreate = (type) => {
   switch (type) {
     case hardwareTypes.led:
@@ -40,6 +44,7 @@ export const getTemplateForCreate = (type) => {
   }
 };
 
+// Funkcia na ziskanie predlohy vstupov pre formular na aktualizaciu hardverovej sucasti
 export const getTemplateForUpdate = (type) => {
   switch (type) {
     case hardwareTypes.led:
@@ -51,9 +56,11 @@ export const getTemplateForUpdate = (type) => {
   }
 };
 
+// Funkcia sluziaca na validaciu pouzivatelskeho vstupu
 export const isInputValid = (name, value) =>
   testInputs[name] ? testInputs[name].test(value.toString()) : true;
 
+// Funckia na validaciu formularu vyplneneho pouzivatelom
 export const isFormValid = (inputs) =>
   Object.entries(inputs)
     .filter(([key, value]) => {
@@ -63,6 +70,7 @@ export const isFormValid = (inputs) =>
     })
     .map((value) => value[0]);
 
+// Funkcia na validaciu operacii pri zvolenych modoch ako napriklad LED
 export const validateOperations = (type, mode, data) => {
   const template = getTemplateForUpdate(type);
   return _.pickBy(data, (value, key) => {
@@ -72,6 +80,7 @@ export const validateOperations = (type, mode, data) => {
   });
 };
 
+// Funkcia na vytvorenie objektu s ciselnou hodnotou
 export const setNumber = (args = [], propName, off = 0) => {
   const number = args[0] + off;
   if (!isInputValid(propName, number)) return null;
@@ -80,6 +89,7 @@ export const setNumber = (args = [], propName, off = 0) => {
   };
 };
 
+// Funkcia na vytvorenie objektu s hodnotou RGB
 export const setColor = (args = [], propName, off = 0) => {
   const colorIndex = args[0] + off;
   if (!isInputValid(propName, colorIndex)) return null;
@@ -90,7 +100,9 @@ export const setColor = (args = [], propName, off = 0) => {
   };
 };
 
+// Funkcia na pridanie hardverovej sucasti k danemu ESP8266 modulu
 export const addHardware = (userId, moduleId, hardware, type, ip) =>
+  // Vytvorenie HTTP poziadavky na nas back-end
   axios({
     url: `/api/hardware/${type}`,
     method: 'post',
@@ -102,25 +114,27 @@ export const addHardware = (userId, moduleId, hardware, type, ip) =>
     },
   });
 
+// Funkcia na odstraenie hardverovej sucasti z danemu ESP8266 modulu
 export const removeHardware = (userId, moduleId, id, type, ip) =>
+  // Vytvorenie HTTP poziadavky na nas back-end
   axios({
-    url: `/api/hardware/${type}`,
+    url: `/api/hardware/${type}/${moduleId}`,
     method: 'delete',
     data: {
       userId,
-      moduleId,
       id,
       ip,
     },
   });
 
+// Funkcia na aktualizaciu hardverovej sucasti patriaca danemu ESP8266 modulu
 export const updateHardware = (userId, moduleId, hardware, id, type, ip) =>
+  // Vytvorenie HTTP poziadavky na nas back-end
   axios({
-    url: `/api/hardware/${type}`,
+    url: `/api/hardware/${type}/${moduleId}`,
     method: 'put',
     data: {
       userId,
-      moduleId,
       hardware,
       id,
       ip,
